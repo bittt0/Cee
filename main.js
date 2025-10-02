@@ -1,135 +1,182 @@
-(function() {
-  // ===== CONFIG =====
-  const password = 'letmein';
-  const games = [
-    { name: 'Drift Boss', path: 'https://bittt0.github.io/Cee/games/driftboss/index.html' },
-    { name: 'Subway Surfers', path: 'https://bittt0.github.io/Cee/games/subwaysurfers/index.html' },
-    { name: 'Gunspin', path: 'https://bittt0.github.io/Cee/games/gunspin/index.html' },
-    { name: 'Doodle Jump', path: 'https://bittt0.github.io/Cee/games/doodlejump/index.html' },
-    { name: 'We Become', path: 'https://bittt0.github.io/Cee/games/webecome/index.html' }
-  ];
+javascript:(function(){
+  // Load Litila font
+  if(!document.getElementById('litila-font-link')){
+    const link = document.createElement('link');
+    link.id = 'litila-font-link';
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Litila&display=swap';
+    document.head.appendChild(link);
+  }
 
-  // ===== CLEAR PAGE =====
-  document.head.innerHTML = '';
-  document.body.innerHTML = '';
-  document.body.style.margin = '0';
-  document.body.style.height = '100vh';
-  document.body.style.overflow = 'hidden';
-  document.body.style.fontFamily = "'Segoe UI', sans-serif";
-
-  // ===== ADD GOOGLE FONT =====
-  const link = document.createElement('link');
-  link.href = 'https://fonts.googleapis.com/css2?family=Litil+One&display=swap';
-  link.rel = 'stylesheet';
-  document.head.appendChild(link);
-
-  // ===== GLASSY ANIMATED BACKGROUND =====
-  const bg = document.createElement('div');
-  bg.style.position = 'fixed';
-  bg.style.top = '0';
-  bg.style.left = '0';
-  bg.style.width = '100%';
-  bg.style.height = '100%';
-  bg.style.background = 'linear-gradient(135deg, #a07cff, #6b39ff)';
-  bg.style.backgroundSize = '400% 400%';
-  bg.style.animation = 'gradientBG 15s ease infinite';
-  document.body.appendChild(bg);
-
+  // Global styles
   const style = document.createElement('style');
   style.textContent = `
-    @keyframes gradientBG {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
+    body, html {
+      margin:0;
+      padding:0;
+      height:100%;
+      width:100%;
+      overflow:hidden;
+      font-family: 'Litila', sans-serif;
+      background: linear-gradient(135deg, #6b3cff, #c06cff);
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:flex-start;
     }
-    .glass-panel {
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: rgba(255,255,255,0.15);
-      backdrop-filter: blur(12px);
-      padding: 40px;
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
-      text-align: center;
-      color: white;
-      min-width: 320px;
+    #overlay {
+      position: fixed; top:0; left:0;
+      width:100vw; height:100vh;
+      background: rgba(0,0,0,0.75);
+      display:flex; justify-content:center; align-items:center;
+      z-index:9999;
     }
-    .glass-panel h1 {
-      font-family: 'Litil One', sans-serif;
-      margin-bottom: 24px;
-      font-size: 2em;
+    #overlay-box {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(15px);
+      padding: 32px;
+      border-radius: 16px;
+      text-align:center;
+      max-width:400px;
+      width:90%;
+      color:#fff;
+      box-shadow:0 0 30px rgba(0,0,0,0.5);
     }
-    .glass-panel input {
-      padding: 10px 15px;
-      border-radius: 12px;
-      border: none;
-      margin-bottom: 20px;
-      font-size: 1em;
-      text-align: center;
+    #overlay-box input {
+      padding:8px 12px;
+      border-radius:10px;
+      border:none;
+      outline:none;
+      font-size:16px;
+      margin-bottom:12px;
+      width:80%;
     }
-    .glass-panel button {
-      padding: 10px 20px;
-      border-radius: 12px;
-      border: none;
-      background: rgba(255,255,255,0.25);
-      color: white;
-      font-weight: bold;
-      cursor: pointer;
-      margin: 5px;
-      transition: all 0.2s;
+    #overlay-box button {
+      padding:8px 16px;
+      border:none;
+      border-radius:10px;
+      cursor:pointer;
+      font-size:16px;
+      background: #b066ff;
+      color:white;
     }
-    .glass-panel button:hover {
-      background: rgba(255,255,255,0.4);
+    #games-list {
+      margin-top:20px;
+      width:90%;
+      max-width:600px;
+      overflow-y:auto;
+      flex:1;
+    }
+    .game-btn {
+      display:block;
+      margin:8px 0;
+      padding:12px;
+      background: rgba(255,255,255,0.1);
+      border:none;
+      border-radius:12px;
+      width:100%;
+      color:white;
+      font-size:18px;
+      cursor:pointer;
+      backdrop-filter: blur(10px);
+      transition:0.2s;
+    }
+    .game-btn:hover {
+      background: rgba(255,255,255,0.2);
+    }
+    #bookmarklet-btn {
+      margin-top:12px;
+      padding:8px 16px;
+      border:none;
+      border-radius:12px;
+      background:#b066ff;
+      color:white;
+      cursor:pointer;
+      font-size:16px;
+    }
+    /* Scrollbar styling */
+    #games-list::-webkit-scrollbar {
+      width:8px;
+    }
+    #games-list::-webkit-scrollbar-thumb {
+      background: rgba(255,255,255,0.3);
+      border-radius:4px;
     }
   `;
   document.head.appendChild(style);
 
-  // ===== PASSWORD PANEL =====
-  const panel = document.createElement('div');
-  panel.className = 'glass-panel';
-  panel.innerHTML = `
-    <h1>Enter Password</h1>
-    <input type="password" placeholder="Password" id="pwd-input"/>
-    <br/>
-    <button id="pwd-submit">Submit</button>
+  // Password overlay
+  const overlay = document.createElement('div');
+  overlay.id = 'overlay';
+  overlay.innerHTML = `
+    <div id="overlay-box">
+      <h2>Enter Password</h2>
+      <input id="pass-input" type="password" placeholder="Password"/>
+      <br>
+      <button id="pass-btn">Submit</button>
+      <p style="font-size:12px;margin-top:8px;">Password is case-sensitive.</p>
+    </div>
   `;
-  document.body.appendChild(panel);
+  document.body.appendChild(overlay);
 
-  const input = panel.querySelector('#pwd-input');
-  const submit = panel.querySelector('#pwd-submit');
+  const passInput = document.getElementById('pass-input');
+  const passBtn = document.getElementById('pass-btn');
+  const PASSWORD = 'letmein';
 
-  function showGames() {
-    panel.innerHTML = '<h1>Select a Game</h1>';
-    games.forEach(game => {
-      const btn = document.createElement('button');
-      btn.textContent = game.name;
-      btn.onclick = () => window.location.href = game.path; // opens in same tab
-      panel.appendChild(btn);
-    });
+  passBtn.onclick = checkPass;
+  passInput.addEventListener('keydown', e => { if(e.key==='Enter') checkPass(); });
 
-    // Add copy bookmarklet button
-    const copyBtn = document.createElement('button');
-    copyBtn.textContent = 'Copy Bookmarklet';
-    copyBtn.onclick = () => {
-      const code = `javascript:(function(){fetch('https://raw.githubusercontent.com/bittt0/Cee/main/main.js').then(r=>r.text()).then(eval);})();`;
-      navigator.clipboard.writeText(code).then(() => alert('Bookmarklet copied!'));
-    };
-    panel.appendChild(document.createElement('br'));
-    panel.appendChild(copyBtn);
-  }
-
-  submit.onclick = () => {
-    if(input.value === password){
+  function checkPass(){
+    if(passInput.value === PASSWORD){
+      overlay.remove();
       showGames();
     } else {
-      alert('Incorrect password!');
+      alert('Incorrect Password!');
+      passInput.value='';
+      passInput.focus();
     }
-  };
+  }
 
-  input.addEventListener('keydown', e => {
-    if(e.key === 'Enter') submit.click();
-  });
+  // Game list
+  const games = [
+    {name:'DriftBoss', path:'https://bittt0.github.io/Cee/games/driftboss/index.html'},
+    {name:'Subway Surfers', path:'https://bittt0.github.io/Cee/games/subwaysurfers/index.html'},
+    {name:'GunSpin', path:'https://bittt0.github.io/Cee/games/gunspin/index.html'},
+    {name:'DoodleJump', path:'https://bittt0.github.io/Cee/games/doodlejump/index.html'},
+    {name:'WeBecome', path:'https://bittt0.github.io/Cee/games/webecome/index.html'}
+  ];
+
+  function showGames(){
+    const list = document.createElement('div');
+    list.id='games-list';
+    document.body.appendChild(list);
+
+    games.forEach(game => {
+      const btn = document.createElement('button');
+      btn.className='game-btn';
+      btn.textContent = game.name;
+      btn.onclick = ()=>{
+        // fetch game HTML and replace body
+        fetch(game.path)
+          .then(res=>res.text())
+          .then(html=>{
+            document.head.innerHTML=''; 
+            document.body.innerHTML=html;
+          })
+          .catch(err=>alert('Failed to load game: '+err));
+      };
+      list.appendChild(btn);
+    });
+
+    // Add bookmarklet copy button
+    const bookmarkBtn = document.createElement('button');
+    bookmarkBtn.id='bookmarklet-btn';
+    bookmarkBtn.textContent='Copy Bookmarklet';
+    bookmarkBtn.onclick = ()=>{
+      const code = `javascript:(function(){fetch('https://raw.githubusercontent.com/bittt0/Cee/main/main.js').then(r=>r.text()).then(eval);})();`;
+      navigator.clipboard.writeText(code).then(()=>alert('Bookmarklet copied!'));
+    };
+    document.body.appendChild(bookmarkBtn);
+  }
 
 })();
