@@ -5,22 +5,17 @@
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>Games Portal — Protected</title>
 
-  <!-- Tailwind CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
-    /* background animation */
     body {
       min-height: 100vh;
       background: radial-gradient(1200px 600px at 10% 10%, rgba(99,102,241,0.12), transparent 6%),
                   radial-gradient(1000px 500px at 90% 90%, rgba(16,185,129,0.08), transparent 8%),
                   linear-gradient(180deg, #0f172a 0%, #071024 100%);
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
     }
 
-    /* glass card specifics for non-tailwind fallback */
     .glass {
       background: rgba(255,255,255,0.06);
       border: 1px solid rgba(255,255,255,0.06);
@@ -29,13 +24,11 @@
       box-shadow: 0 6px 30px rgba(2,6,23,0.6);
     }
 
-    /* subtle card hover */
     .game-card:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 40px rgba(2,6,23,0.6);
     }
 
-    /* small helper to hide element until password ok */
     .hidden-until-auth { display: none; }
   </style>
 </head>
@@ -44,7 +37,6 @@
   <div class="min-h-screen flex items-center justify-center p-6">
     <div class="w-full max-w-4xl">
 
-      <!-- Header -->
       <header class="mb-6 flex items-center justify-between">
         <div class="glass p-4 rounded-2xl flex items-center gap-4">
           <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5">
@@ -57,22 +49,13 @@
             <p class="text-xs text-white/60">Password protected • Mobile friendly</p>
           </div>
         </div>
-
-        <div id="bookmarkletBox" class="glass p-3 rounded-2xl text-sm text-slate-200 hidden">
-          <div class="flex gap-2 items-center">
-            <button id="copyBookmarkletBtn" class="px-3 py-1 rounded-md bg-white/6 hover:bg-white/10">Copy Bookmarklet</button>
-            <button id="openBookmarkletBtn" class="px-3 py-1 rounded-md bg-white/6 hover:bg-white/10">Open Cloaked</button>
-          </div>
-          <p class="mt-2 text-xs text-white/60">Use the bookmarklet to open this site inside an about:blank tab (no iframe).</p>
-        </div>
       </header>
 
-      <!-- Main card -->
       <main class="glass p-6 rounded-3xl">
         <!-- Password box -->
         <div id="loginCard" class="max-w-md mx-auto">
           <h2 class="text-2xl font-semibold mb-2">Enter password to continue</h2>
-          <p class="text-sm text-white/60 mb-4">This is a client-side gate — change the password in the HTML before publishing.</p>
+          <p class="text-sm text-white/60 mb-4">Client-side password — change in HTML.</p>
           <div class="flex gap-2">
             <input id="passwordInput" type="password" placeholder="Password" class="flex-1 rounded-xl p-3 bg-white/5 border border-white/6 focus:outline-none" />
             <button id="enterBtn" class="rounded-xl px-4 py-2 bg-indigo-600 hover:bg-indigo-500">Enter</button>
@@ -82,13 +65,10 @@
 
         <!-- Content after auth -->
         <div id="content" class="hidden-until-auth mt-6">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-lg font-semibold">Your Games</h3>
-            <div class="text-sm text-white/60">Logged in for this session</div>
-          </div>
+          <h3 class="text-lg font-semibold mb-4">Your Games</h3>
 
           <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Example game card (Idle Breakout) -->
+            <!-- Idle Breakout card -->
             <a href="games/idle-breakout/index.html" class="game-card block glass p-4 rounded-2xl transform transition-all duration-200" target="_blank" rel="noopener">
               <div class="flex items-center gap-3">
                 <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/4 text-lg font-semibold">🔵</div>
@@ -99,71 +79,44 @@
               </div>
             </a>
 
-            <!-- Placeholder card you can replace -->
+            <!-- Placeholder for future games -->
             <div class="game-card glass p-4 rounded-2xl">
               <div class="flex items-center gap-3">
                 <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/4 text-lg font-semibold">🎯</div>
                 <div>
-                  <div class="font-semibold">Add your next game</div>
-                  <div class="text-xs text-white/60">Drop game folder into /games/your-game/ and add a link here.</div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Another placeholder -->
-            <div class="game-card glass p-4 rounded-2xl">
-              <div class="flex items-center gap-3">
-                <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/4 text-lg font-semibold">🕹️</div>
-                <div>
-                  <div class="font-semibold">Open external</div>
-                  <div class="text-xs text-white/60">Add external links to games (opens in new tab).</div>
+                  <div class="font-semibold">Add Your Game</div>
+                  <div class="text-xs text-white/60">Drop game folder into /games/ and add a link here.</div>
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- admin / instructions -->
           <section class="mt-6 p-4 bg-white/3 rounded-lg text-sm text-white/80">
-            <strong>How to add games:</strong>
+            <strong>How to add more games:</strong>
             <ol class="list-decimal list-inside mt-2 text-xs text-white/70">
-              <li>Place extracted game folder at <code>/games/your-game/</code> (index.html inside).</li>
-              <li>Add a link card above (copy the Idle Breakout card and change href/title/icon).</li>
-              <li>Commit & push to GitHub — your game will be live at <code>/games/your-game/index.html</code>.</li>
+              <li>Upload a folder with your game inside <code>/games/</code>.</li>
+              <li>Make sure the folder has an <code>index.html</code> pointing to its asset folder (like <code>html5game/</code>).</li>
+              <li>Add a link card in this page pointing to the new <code>index.html</code>.</li>
             </ol>
-            <p class="mt-3 text-xs text-white/60">Tip: test locally with <code>python -m http.server</code> in your repo root.</p>
           </section>
         </div>
-
-        <!-- Footer / small note -->
-        <footer class="mt-6 text-xs text-white/50">
-          <div>Client-side password — not secure for secrets. Change <code>PASSWORD</code> in the HTML to your chosen password before pushing.</div>
-        </footer>
       </main>
     </div>
   </div>
 
   <script>
-    /***************** CONFIG *****************/
-    // Change this password before publishing
-    const PASSWORD = "letmein"; // <<<<--- edit this
-    // Whether to show a bookmarklet button after login
-    const SHOW_BOOKMARKLET = true;
-    /******************************************/
+    const PASSWORD = "letmein"; // <<<< change this
 
     const loginCard = document.getElementById('loginCard');
     const content = document.getElementById('content');
     const enterBtn = document.getElementById('enterBtn');
     const passwordInput = document.getElementById('passwordInput');
     const loginMsg = document.getElementById('loginMsg');
-    const bookmarkletBox = document.getElementById('bookmarkletBox');
-    const copyBookmarkletBtn = document.getElementById('copyBookmarkletBtn');
-    const openBookmarkletBtn = document.getElementById('openBookmarkletBtn');
 
-    // helper: mark authenticated for this session
     const AUTH_KEY = 'glass_games_portal_authed_v1';
 
     function setAuthed() {
-      sessionStorage.setItem(AUTH_KEY, '1');
+      sessionStorage.setItem(AUTH_KEY,'1');
       showContent();
     }
 
@@ -174,125 +127,28 @@
     function showContent() {
       loginCard.style.display = 'none';
       content.style.display = 'block';
-      if (SHOW_BOOKMARKLET) bookmarkletBox.classList.remove('hidden');
     }
 
     function showLogin() {
       loginCard.style.display = '';
       content.style.display = 'none';
-      bookmarkletBox.classList.add('hidden');
     }
 
-    // initial
-    if (isAuthed()) {
-      showContent();
-    } else {
-      showLogin();
-    }
+    if (isAuthed()) showContent();
 
     enterBtn.addEventListener('click', () => {
-      const v = passwordInput.value || '';
-      if (v === PASSWORD) {
+      if(passwordInput.value === PASSWORD){
         setAuthed();
-        loginMsg.classList.add('hidden');
         passwordInput.value = '';
+        loginMsg.classList.add('hidden');
       } else {
         loginMsg.classList.remove('hidden');
       }
     });
 
-    passwordInput.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter') enterBtn.click();
+    passwordInput.addEventListener('keydown', e => {
+      if(e.key==='Enter') enterBtn.click();
     });
-
-    /********** Bookmarklet creation (no iframe) **********
-     This generates a bookmarklet that opens a new about:blank tab,
-     fetches the provided site URL's HTML, writes it into the new tab,
-     and preserves the URL in the address bar via history.replaceState.
-     ********************************************************/
-
-    // build the site URL automatically (you can edit if your site is elsewhere)
-    const siteURL = (function(){
-      // If this page is served from GitHub Pages, keep its origin + pathname
-      // Use location.origin + location.pathname to generate full index URL
-      const origin = location.origin;
-      // If index.html is in repo root, this is fine
-      return origin + location.pathname;
-    })();
-
-    function makeBookmarkletCode(url) {
-      // Minified but readable bookmarklet - uses fetch and document.write in new window
-      const js = `
-        (async()=>{
-          try{
-            let win = window.open('about:blank','_blank');
-            if(!win){ alert('Popups blocked — allow popups for this to work'); return; }
-            let res = await fetch('${url}', {cache:'no-store'});
-            let html = await res.text();
-            // optional: sanitize? we directly write the HTML the site provides
-            win.document.open();
-            win.document.write(html);
-            // set a simple base so relative links still work
-            const base = win.document.createElement('base');
-            base.href='${url}';
-            win.document.head.appendChild(base);
-            win.document.close();
-            // replace history so address bar shows the real URL (not about:blank)
-            try{ win.history.replaceState({}, '', '${url}'); }catch(e){}
-          }catch(e){ alert('Failed to open or fetch: '+e); }
-        })();
-      `;
-      // Compact for bookmarklet
-      return 'javascript:' + js.replace(/\s+/g,' ');
-    }
-
-    // populate the copy button
-    const bookmarklet = makeBookmarkletCode(siteURL);
-
-    if (copyBookmarkletBtn) {
-      copyBookmarkletBtn.addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(bookmarklet);
-          copyBookmarkletBtn.textContent = 'Copied!';
-          setTimeout(()=> copyBookmarkletBtn.textContent = 'Copy Bookmarklet', 1500);
-        } catch (e) {
-          alert('Could not copy. Here is the code (select + copy):\\n\\n' + bookmarklet);
-        }
-      });
-    }
-
-    if (openBookmarkletBtn) {
-      openBookmarkletBtn.addEventListener('click', () => {
-        // run the bookmarklet directly (useful when testing)
-        try {
-          // Evaluate the inner async function directly
-          (async ()=>{
-            try{
-              let win = window.open('about:blank','_blank');
-              if(!win) { alert('Popups blocked — allow popups for this to work'); return; }
-              let res = await fetch(siteURL, {cache:'no-store'});
-              let html = await res.text();
-              win.document.open();
-              win.document.write(html);
-              const base = win.document.createElement('base');
-              base.href=siteURL;
-              win.document.head.appendChild(base);
-              win.document.close();
-              try{ win.history.replaceState({}, '', siteURL); }catch(e){}
-            }catch(e){ alert('Failed: '+e); }
-          })();
-        } catch(e) {
-          alert('Could not open cloak: ' + e);
-        }
-      });
-    }
-
-    // Optional: show bookmarklet box when logged in
-    if (isAuthed() && SHOW_BOOKMARKLET) {
-      bookmarkletBox.classList.remove('hidden');
-    }
-
-    // END
   </script>
 </body>
 </html>
