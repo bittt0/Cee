@@ -1,145 +1,242 @@
-javascript:(function(){
-if(!document.getElementById('litila-font')){
-  const link=document.createElement('link');
-  link.id='litila-font';
-  link.rel='stylesheet';
-  link.href='https://fonts.googleapis.com/css2?family=Litila&display=swap';
-  document.head.appendChild(link);
-}
+(async () => {
+  const PORTAL_BASE = 'https://bittt0.github.io/Cee/';
+  const RAW_MAIN_JS = 'https://raw.githubusercontent.com/bittt0/Cee/main/main.js';
+  const PASSWORD = 'letmein';
+  const FONT_LINK = 'https://fonts.googleapis.com/css2?family=Lilita+One&display=swap';
 
-document.head.innerHTML='';
-document.body.innerHTML='';
-document.body.style.margin='0';
-document.body.style.height='100vh';
-document.body.style.overflow='hidden';
-document.body.style.background='linear-gradient(135deg, rgba(120,81,169,0.4), rgba(180,123,210,0.4))';
-document.body.style.backdropFilter='blur(12px)';
-document.body.style.fontFamily="'Litila', sans-serif";
-document.body.style.display='flex';
-document.body.style.flexDirection='column';
-document.body.style.alignItems='center';
-document.body.style.justifyContent='center';
+  const win = window.open('about:blank','_blank');
+  if(!win){ alert('Popups blocked — allow popups for this to work'); return; }
 
-const waves=document.createElement('canvas');
-waves.id='waves-canvas';
-waves.style.position='absolute';
-waves.style.top='0';
-waves.style.left='0';
-waves.width=window.innerWidth;
-waves.height=window.innerHeight;
-document.body.appendChild(waves);
-const ctx=waves.getContext('2d');
-let t=0;
-function drawWaves(){
-  ctx.clearRect(0,0,waves.width,waves.height);
-  for(let i=0;i<3;i++){
-    ctx.beginPath();
-    ctx.moveTo(0,waves.height/2+i*20);
-    for(let x=0;x<waves.width;x++){
-      ctx.lineTo(x,waves.height/2+i*20+Math.sin((x+t)/50+i)*20);
-    }
-    ctx.strokeStyle=`rgba(${150+i*30},${50},${200-i*40},0.4)`;
-    ctx.lineWidth=2;
-    ctx.stroke();
-  }
-  t+=2;
-  requestAnimationFrame(drawWaves);
-}
-drawWaves();
+  const portalHTML = `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Cee Portal</title>
+<link href="${FONT_LINK}" rel="stylesheet">
+<style>
+:root{--a:#b266ff;--b:#8000ff;--glass:rgba(255,255,255,0.06);--muted:rgba(255,255,255,0.72)}
+html,body{height:100%;margin:0;background:#070014;color:#fff;font-family:'Lilita One',sans-serif;-webkit-font-smoothing:antialiased;overflow-y:auto}
+.bg{position:fixed;inset:0;z-index:0;pointer-events:none;background:linear-gradient(270deg,#5a0abf,#9b4eff,#5a0abf);background-size:600% 600%;animation:bgMove 18s ease infinite;filter:blur(22px);opacity:0.95}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+.wrap{position:relative;z-index:2;min-height:100vh;display:flex;align-items:flex-start;justify-content:center;padding:36px 18px;box-sizing:border-box}
+.card{width:100%;max-width:1100px;border-radius:18px;padding:20px;box-sizing:border-box;background:var(--glass);border:1px solid rgba(255,255,255,0.06);backdrop-filter: blur(10px);-webkit-backdrop-filter: blur(10px);box-shadow:0 14px 40px rgba(3,6,20,0.6)}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:56px;height:56px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;background:linear-gradient(135deg,var(--a),var(--b));color:white;box-shadow:0 6px 18px rgba(128,0,255,0.14)}
+h1{margin:0;font-size:20px;letter-spacing:0.3px}
+.subtitle{margin:0;color:var(--muted);font-size:13px}
+.controls{display:flex;gap:8px;align-items:center}
+.btn{border:1px solid rgba(255,255,255,0.06);background:transparent;color:white;padding:8px 12px;border-radius:10px;cursor:pointer;font-weight:600}
+.btn-primary{background:linear-gradient(180deg,var(--a),var(--b));border:none}
+.games{margin-top:18px;display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.game-card{padding:12px;border-radius:12px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.03);display:flex;flex-direction:column;gap:8px;min-height:110px;box-sizing:border-box}
+.game-title{font-weight:700;font-size:16px}
+.game-desc{font-size:13px;color:var(--muted)}
+.card-actions{margin-top:auto;display:flex;gap:8px;align-items:center}
+.iframe-wrap{margin-top:14px;border-radius:12px;overflow:hidden;background:#000;border:1px solid rgba(255,255,255,0.03);display:none}
+iframe{width:100%;height:560px;border:0}
+@media(max-width:640px){iframe{height:420px}}
+footer{margin-top:12px;color:var(--muted);font-size:13px;text-align:center}
+.bg, svg, .decor{pointer-events:none}
+</style>
+</head>
+<body>
+<div class="bg" aria-hidden="true"></div>
+<div class="wrap">
+  <main class="card" role="main">
+    <header>
+      <div class="brand">
+        <div class="logo">C</div>
+        <div>
+          <h1>Cee Games Portal</h1>
+          <p class="subtitle">Password protected • Cloaked</p>
+        </div>
+      </div>
+      <div class="controls">
+        <button id="openIndexBtn" class="btn" title="Open index.html cloaked">Open index.html (cloaked)</button>
+        <button id="copyBMBtn" class="btn">Copy Bookmarklet</button>
+        <button id="testOpenBtn" class="btn">Open Cloaked (test)</button>
+      </div>
+    </header>
 
-const overlay=document.createElement('div');
-overlay.style.position='absolute';
-overlay.style.top='0';
-overlay.style.left='0';
-overlay.style.width='100vw';
-overlay.style.height='100vh';
-overlay.style.background='rgba(0,0,0,0.75)';
-overlay.style.display='flex';
-overlay.style.flexDirection='column';
-overlay.style.justifyContent='center';
-overlay.style.alignItems='center';
-overlay.style.zIndex='1000';
-document.body.appendChild(overlay);
+    <section id="authSection" style="margin-top:12px">
+      <p class="subtitle">Enter password to reveal games</p>
+      <div style="display:flex;gap:8px;margin-top:10px">
+        <input id="pwInput" type="password" placeholder="Password" style="flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:#fff">
+        <button id="pwBtn" class="btn-primary">Enter</button>
+      </div>
+      <p id="pwErr" style="color:#ff8080;margin-top:8px;display:none">Wrong password</p>
+    </section>
 
-const title=document.createElement('h1');
-title.textContent='Cee';
-title.style.color='#b16aff';
-title.style.fontSize='3em';
-overlay.appendChild(title);
+    <section id="portal" style="display:none">
+      <div id="gamesGrid" class="games"></div>
 
-const input=document.createElement('input');
-input.type='password';
-input.placeholder='Enter password';
-input.style.fontSize='1.2em';
-input.style.padding='0.5em';
-input.style.borderRadius='10px';
-input.style.border='2px solid #b16aff';
-input.style.marginTop='1em';
-overlay.appendChild(input);
+      <div id="iframeWrap" class="iframe-wrap">
+        <div style="display:flex;align-items:center;gap:8px;padding:8px;background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))">
+          <div style="flex:1;color:var(--muted);font-size:13px">Playing: <span id="playingName"></span></div>
+          <button id="fsBtn" class="btn">Full Screen</button>
+          <button id="closeFrame" class="btn">Close</button>
+        </div>
+        <iframe id="gameFrame" sandbox="allow-scripts allow-forms allow-same-origin"></iframe>
+      </div>
 
-const btn=document.createElement('button');
-btn.textContent='Unlock';
-btn.style.marginTop='1em';
-btn.style.padding='0.5em 1em';
-btn.style.borderRadius='10px';
-btn.style.border='none';
-btn.style.background='#b16aff';
-btn.style.color='white';
-btn.style.cursor='pointer';
-overlay.appendChild(btn);
+      <footer>Client-side password only. Make sure game files exist at <code>${PORTAL_BASE}games/...</code></footer>
+    </section>
+  </main>
+</div>
 
-const games=[
-  {name:'Drift Boss',url:'https://bittt0.github.io/Cee/games/driftboss/index.html'},
-  {name:'Subway Surfers',url:'https://bittt0.github.io/Cee/games/subwaysurfers/index.html'},
-  {name:'Gunspin',url:'https://bittt0.github.io/Cee/games/gunspin/index.html'},
-  {name:'Doodle Jump',url:'https://bittt0.github.io/Cee/games/doodlejump/index.html'},
-  {name:'WeBecome',url:'https://bittt0.github.io/Cee/games/webecome/index.html'}
-];
+<script>
+(function(){
+  const PASSWORD = ${JSON.stringify(PASSWORD)};
+  const PORTAL_BASE = ${JSON.stringify(PORTAL_BASE)};
+  const RAW_MAIN_JS = ${JSON.stringify(RAW_MAIN_JS)};
 
-btn.onclick=function(){
-  if(input.value==='letmein'){
-    overlay.remove();
-    const gameContainer=document.createElement('div');
-    gameContainer.style.position='absolute';
-    gameContainer.style.top='10vh';
-    gameContainer.style.bottom='10vh';
-    gameContainer.style.overflowY='auto';
-    gameContainer.style.width='80%';
-    gameContainer.style.background='rgba(255,255,255,0.1)';
-    gameContainer.style.backdropFilter='blur(12px)';
-    gameContainer.style.borderRadius='16px';
-    gameContainer.style.padding='1em';
-    gameContainer.style.display='flex';
-    gameContainer.style.flexDirection='column';
-    gameContainer.style.gap='1em';
-    document.body.appendChild(gameContainer');
+  const games = [
+    { name: 'Drift Boss', url: PORTAL_BASE + 'games/driftboss/index.html', desc: 'Tap/Swipe to drift' },
+    { name: 'Subway Surfers', url: PORTAL_BASE + 'games/subwaysurfers/index.html', desc: 'Endless runner' },
+    { name: 'GunSpin', url: PORTAL_BASE + 'games/gunspin/index.html', desc: 'Spin & shoot' },
+    { name: 'Doodle Jump', url: PORTAL_BASE + 'games/doodlejump/index.html', desc: 'Jump high' },
+    { name: 'WeBecome', url: PORTAL_BASE + 'games/webecome/index.html', desc: 'Interactive story' }
+  ];
 
-    games.forEach(g=>{
-      const b=document.createElement('button');
-      b.textContent=g.name;
-      b.style.padding='0.5em';
-      b.style.fontSize='1em';
-      b.style.borderRadius='12px';
-      b.style.border='none';
-      b.style.cursor='pointer';
-      b.style.background='rgba(200,150,255,0.5)';
-      b.style.color='white';
-      b.onclick=function(){
-        const iframe=document.createElement('iframe');
-        iframe.src=g.url;
-        iframe.style.position='fixed';
-        iframe.style.top='0';
-        iframe.style.left='0';
-        iframe.style.width='100vw';
-        iframe.style.height='100vh';
-        iframe.style.border='none';
-        document.body.innerHTML='';
-        document.body.appendChild(iframe);
-      };
-      gameContainer.appendChild(b);
+  const pwInput = document.getElementById('pwInput');
+  const pwBtn = document.getElementById('pwBtn');
+  const pwErr = document.getElementById('pwErr');
+  const authSection = document.getElementById('authSection');
+  const portalSection = document.getElementById('portal');
+  const gamesGrid = document.getElementById('gamesGrid');
+  const iframeWrap = document.getElementById('iframeWrap');
+  const gameFrame = document.getElementById('gameFrame');
+  const playingName = document.getElementById('playingName');
+  const fsBtn = document.getElementById('fsBtn');
+  const closeFrame = document.getElementById('closeFrame');
+
+  const openIndexBtn = document.getElementById('openIndexBtn');
+  const copyBMBtn = document.getElementById('copyBMBtn');
+  const testOpenBtn = document.getElementById('testOpenBtn');
+
+  function renderGames(){
+    gamesGrid.innerHTML = '';
+    games.forEach((g, idx) => {
+      const card = document.createElement('div');
+      card.className = 'game-card';
+      card.innerHTML = \`
+        <div class="game-title">\${g.name}</div>
+        <div class="game-desc">\${g.desc}</div>
+        <div class="card-actions">
+          <button class="btn btn-primary" data-idx="\${idx}" data-action="play">Play</button>
+          <button class="btn" data-idx="\${idx}" data-action="open">Open Raw</button>
+        </div>
+      \`;
+      gamesGrid.appendChild(card);
     });
-  }else{
-    alert('Incorrect password');
   }
-};
+
+  function showPortal(){ authSection.style.display='none'; portalSection.style.display=''; renderGames(); }
+  function tryAuth(){ if(pwInput.value === PASSWORD) showPortal(); else { pwErr.style.display=''; setTimeout(()=> pwErr.style.display = 'none',1600); pwInput.value=''; pwInput.focus(); } }
+  pwBtn.addEventListener('click', tryAuth);
+  pwInput.addEventListener('keydown', e => { if (e.key === 'Enter') tryAuth(); });
+
+  gamesGrid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('button');
+    if(!btn) return;
+    const idx = Number(btn.dataset.idx);
+    const action = btn.dataset.action;
+    if(Number.isNaN(idx) || !action) return;
+    const g = games[idx];
+    if(action === 'open'){
+      location.href = g.url;
+      return;
+    }
+    try {
+      const html = await fetchText(g.url);
+      const base = g.url.replace(/\\/index\\.html?$/i, '');
+      const rewritten = rewriteRelativeURLs(html, base);
+      const blob = new Blob([rewritten], {type: 'text/html'});
+      const blobUrl = URL.createObjectURL(blob);
+      location.href = blobUrl;
+    } catch (err) {
+      console.error('Load failed:', err);
+      if(confirm('Could not load game via blob. Open hosted page instead?')) location.href = g.url;
+    }
+  });
+
+  closeFrame.addEventListener('click', () => { gameFrame.src = 'about:blank'; iframeWrap.style.display = 'none'; });
+
+  fsBtn.addEventListener('click', async () => {
+    try {
+      if (gameFrame.requestFullscreen) await gameFrame.requestFullscreen();
+      else if (gameFrame.webkitRequestFullscreen) await gameFrame.webkitRequestFullscreen();
+      else if (gameFrame.msRequestFullscreen) await gameFrame.msRequestFullscreen();
+    } catch (e) { console.warn('Fullscreen failed', e); }
+  });
+
+  async function fetchText(url){
+    const res = await fetch(url, {cache:'no-store'});
+    if(!res.ok) throw new Error(res.status+' '+res.statusText);
+    return await res.text();
+  }
+
+  function rewriteRelativeURLs(htmlText, baseUrl){
+    const attrRegex = /(src|href)=["']([^"':#?][^"']*)["']/gi;
+    htmlText = htmlText.replace(attrRegex, (m, attr, path)=>{
+      if(/^(data:|javascript:|#)/i.test(path)) return m;
+      if(/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(path)) return m;
+      const abs = new URL(path, baseUrl).href;
+      return \`\${attr}="\${abs}"\`;
+    });
+
+    htmlText = htmlText.replace(/srcset=["']([^"']+)["']/gi, (m, val)=>{
+      const parts = val.split(',').map(p=>{
+        const [urlPart, rest] = p.trim().split(/\\s+/,2);
+        const newUrl = (/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(urlPart) || urlPart.startsWith('//') || urlPart.startsWith('data:')) ? urlPart : new URL(urlPart, baseUrl).href;
+        return rest ? (newUrl + ' ' + rest) : newUrl;
+      });
+      return \`srcset="\${parts.join(', ')}"\`;
+    });
+
+    htmlText = htmlText.replace(/url\\((['"]?)([^'")]+)\\1\\)/gi, (m, q, pth)=>{
+      if(/^(data:|http:|https:|\/\/)/i.test(pth)) return m;
+      return \`url(\${new URL(pth, baseUrl).href})\`;
+    });
+
+    if(/<base /i.test(htmlText) === false){
+      htmlText = htmlText.replace(/<head(\\s|>)/i, (m)=> m + '\\n<base href="' + baseUrl + '">');
+    }
+    return htmlText;
+  }
+
+  copyBMBtn.addEventListener('click', async () => {
+    const bm = \`javascript:(function(){fetch(\${JSON.stringify(RAW_MAIN_JS)}).then(r=>r.text()).then(js=> (0,eval)(js)).catch(e=>alert('Failed to load: '+e));})();\`;
+    try { await navigator.clipboard.writeText(bm); copyBMBtn.textContent = 'Copied!'; setTimeout(()=> copyBMBtn.textContent = 'Copy Bookmarklet', 1500); }
+    catch(e){ alert('Could not copy. Use this code:\\n\\n' + bm); }
+  });
+
+  testOpenBtn.addEventListener('click', async () => {
+    try {
+      const w = window.open('about:blank','_blank');
+      if(!w){ alert('Popups blocked'); return; }
+      const res = await fetch(PORTAL_BASE, {cache:'no-store'});
+      if(!res.ok) throw new Error(res.status+' '+res.statusText);
+      const html = await res.text();
+      w.document.open();
+      w.document.write(html);
+      const base = w.document.createElement('base'); base.href = PORTAL_BASE; w.document.head.appendChild(base);
+      w.document.close();
+      try{ w.history.replaceState({}, '', PORTAL_BASE); }catch(e){}
+    } catch (err) { alert('Failed to open cloaked portal: ' + err); }
+  });
+
+  openIndexBtn.addEventListener('click', () => testOpenBtn.click());
+
+  pwInput.focus();
+})();
+</script>
+</body>
+</html>`;
+
+  win.document.open();
+  win.document.write(portalHTML);
+  win.document.close();
 })();
