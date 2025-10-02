@@ -1,11 +1,12 @@
 javascript:(function(){
 if(!document.getElementById('litila-font-link')){
-const link=document.createElement('link');
-link.id='litila-font-link';
-link.rel='stylesheet';
-link.href='https://fonts.googleapis.com/css2?family=Litila&display=swap';
-document.head.appendChild(link);
+  const link=document.createElement('link');
+  link.id='litila-font-link';
+  link.rel='stylesheet';
+  link.href='https://fonts.googleapis.com/css2?family=Litila&display=swap';
+  document.head.appendChild(link);
 }
+
 const style=document.createElement('style');
 style.textContent=`
 body{margin:0;padding:0;font-family:'Litila',sans-serif;overflow:hidden;background:linear-gradient(270deg,#6a0dad,#d46cff,#6a0dad);background-size:600% 600%;animation:gradAnim 15s ease infinite}
@@ -16,17 +17,13 @@ body{margin:0;padding:0;font-family:'Litila',sans-serif;overflow:hidden;backgrou
 .input-area{position:fixed;top:8em;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:0.5em;align-items:center;z-index:100}
 .input-area button{padding:0.4em 1em;border:none;border-radius:8px;background:#9b59b6;color:white;font-size:1.2em;cursor:pointer}
 .input-area button:hover{background:#8e44ad}
+.input-area input{padding:0.4em 0.6em;border-radius:8px;border:1px solid #9b59b6;font-size:1.1em}
 .game-list{position:fixed;top:12em;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;gap:0.5em;overflow-y:auto;height:70vh;width:80%;max-width:600px;z-index:99}
 .game-list button{padding:0.6em 1em;border:none;border-radius:8px;background:rgba(255,255,255,0.2);color:white;font-size:1.1em;cursor:pointer;backdrop-filter:blur(8px);transition:0.2s}
 .game-list button:hover{background:rgba(255,255,255,0.35)}
-#overlay{position:fixed;top:0;left:0;width:100vw;height:100vh;background:rgba(0,0,0,0.75);display:flex;justify-content:center;align-items:center;z-index:1000}
-#overlay-box{background:rgba(17,17,17,0.95);border:1px solid rgba(255,255,255,0.1);border-radius:16px;padding:32px;max-width:520px;width:90%;text-align:center}
-#overlay-box h1{color:#9b59b6;margin-bottom:16px}
-#overlay-box p{color:white;margin-bottom:24px}
-#overlay-box button{padding:10px 20px;border:none;border-radius:10px;background:#9b59b6;color:white;cursor:pointer;font-weight:bold}
 `;
-document.head.appendChild(style);
 
+document.head.appendChild(style);
 document.body.innerHTML='';
 
 const header1=document.createElement('div');
@@ -49,10 +46,6 @@ inputArea.className='input-area';
 const input=document.createElement('input');
 input.type='password';
 input.placeholder='Enter password';
-input.style.padding='0.4em 0.6em';
-input.style.borderRadius='8px';
-input.style.border='1px solid #9b59b6';
-input.style.fontSize='1.1em';
 inputArea.appendChild(input);
 
 const passButton=document.createElement('button');
@@ -65,45 +58,64 @@ gameList.className='game-list';
 document.body.appendChild(gameList);
 
 const games=[
-{name:'Driftboss',path:'games/driftboss/index.html'},
-{name:'Subway Surfers',path:'games/subwaysurfers/index.html'},
-{name:'Gunspin',path:'games/gunspin/index.html'},
-{name:'Doodle Jump',path:'games/doodlejump/index.html'},
-{name:'We Become',path:'games/webecome/index.html'}
+  {name:'Driftboss',path:'games/driftboss/index.html'},
+  {name:'Subway Surfers',path:'games/subwaysurfers/index.html'},
+  {name:'Gunspin',path:'games/gunspin/index.html'},
+  {name:'Doodle Jump',path:'games/doodlejump/index.html'},
+  {name:'We Become',path:'games/webecome/index.html'}
 ];
 
 function openGame(url){
-const win=document.open('about:blank','_self');
-const fullBtn=document.createElement('button');
-fullBtn.textContent='Fullscreen';
-fullBtn.style.position='fixed';
-fullBtn.style.top='10px';
-fullBtn.style.right='10px';
-fullBtn.style.zIndex='9999';
-fullBtn.style.padding='0.5em 1em';
-fullBtn.style.background='#9b59b6';
-fullBtn.style.color='white';
-fullBtn.style.border='none';
-fullBtn.style.borderRadius='8px';
-fullBtn.style.cursor='pointer';
-fullBtn.onclick=function(){
-if(win.document.documentElement.requestFullscreen) win.document.documentElement.requestFullscreen();
-else if(win.document.documentElement.webkitRequestFullscreen) win.document.documentElement.webkitRequestFullscreen();
-};
-win.document.write('<iframe src="'+url+'" style="border:none;width:100vw;height:100vh;"></iframe>');
-win.document.body.appendChild(fullBtn);
+  gameList.style.display='none';
+  inputArea.style.display='none';
+  desc.style.display='none';
+
+  const container=document.createElement('div');
+  container.style.position='fixed';
+  container.style.top='0';
+  container.style.left='0';
+  container.style.width='100vw';
+  container.style.height='100vh';
+  container.style.zIndex='1000';
+  document.body.appendChild(container);
+
+  const iframe=document.createElement('iframe');
+  iframe.src=url;
+  iframe.style.width='100%';
+  iframe.style.height='100%';
+  iframe.style.border='none';
+  container.appendChild(iframe);
+
+  const fullBtn=document.createElement('button');
+  fullBtn.textContent='Fullscreen';
+  fullBtn.style.position='absolute';
+  fullBtn.style.top='10px';
+  fullBtn.style.right='10px';
+  fullBtn.style.zIndex='9999';
+  fullBtn.style.padding='0.5em 1em';
+  fullBtn.style.background='#9b59b6';
+  fullBtn.style.color='white';
+  fullBtn.style.border='none';
+  fullBtn.style.borderRadius='8px';
+  fullBtn.style.cursor='pointer';
+  fullBtn.onclick=function(){
+    if(container.requestFullscreen) container.requestFullscreen();
+    else if(container.webkitRequestFullscreen) container.webkitRequestFullscreen();
+  };
+  container.appendChild(fullBtn);
 }
 
 passButton.onclick=function(){
-if(input.value==='letmein'){
-inputArea.style.display='none';
-desc.style.display='none';
-games.forEach(g=>{
-const btn=document.createElement('button');
-btn.textContent=g.name;
-btn.onclick=function(){openGame(g.path)};
-gameList.appendChild(btn);
-});
-}else{alert('Incorrect password');input.value='';}
+  if(input.value==='letmein'){
+    games.forEach(g=>{
+      const btn=document.createElement('button');
+      btn.textContent=g.name;
+      btn.onclick=function(){openGame(g.path)};
+      gameList.appendChild(btn);
+    });
+  } else {
+    alert('Incorrect password');
+    input.value='';
+  }
 };
 })();
