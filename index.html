@@ -3,8 +3,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Games Portal — Protected</title>
+  <title>Glass Games Portal</title>
 
+  <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
@@ -30,6 +31,17 @@
     }
 
     .hidden-until-auth { display: none; }
+
+    iframe {
+      border: none;
+      width: 100%;
+      height: 500px;
+      border-radius: 1rem;
+    }
+
+    @media(max-width:640px){
+      iframe { height: 350px; }
+    }
   </style>
 </head>
 <body class="text-slate-100">
@@ -37,6 +49,7 @@
   <div class="min-h-screen flex items-center justify-center p-6">
     <div class="w-full max-w-4xl">
 
+      <!-- Header -->
       <header class="mb-6 flex items-center justify-between">
         <div class="glass p-4 rounded-2xl flex items-center gap-4">
           <div class="w-12 h-12 flex items-center justify-center rounded-lg bg-white/5">
@@ -51,7 +64,9 @@
         </div>
       </header>
 
+      <!-- Main card -->
       <main class="glass p-6 rounded-3xl">
+
         <!-- Password box -->
         <div id="loginCard" class="max-w-md mx-auto">
           <h2 class="text-2xl font-semibold mb-2">Enter password to continue</h2>
@@ -65,19 +80,19 @@
 
         <!-- Content after auth -->
         <div id="content" class="hidden-until-auth mt-6">
+
           <h3 class="text-lg font-semibold mb-4">Your Games</h3>
 
-          <div id="gamesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <!-- Idle Breakout card -->
-            <a href="games/idle-breakout/index.html" class="game-card block glass p-4 rounded-2xl transform transition-all duration-200" target="_blank" rel="noopener">
-              <div class="flex items-center gap-3">
-                <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/4 text-lg font-semibold">🔵</div>
-                <div>
-                  <div class="font-semibold">Idle Breakout</div>
-                  <div class="text-xs text-white/60">Click, upgrade, and automate. Mobile friendly.</div>
-                </div>
+          <div id="gamesGrid" class="grid grid-cols-1 gap-4">
+
+            <!-- Idle Breakout embedded -->
+            <div class="game-card glass p-4 rounded-2xl">
+              <div class="flex items-center justify-between mb-2">
+                <div class="font-semibold text-lg">Idle Breakout</div>
+                <button onclick="toggleGame('idleBreakoutFrame')" class="px-2 py-1 bg-indigo-600 text-white rounded-lg text-sm">Play/Hide</button>
               </div>
-            </a>
+              <iframe id="idleBreakoutFrame" src="games/idle-breakout/index.html" class="hidden"></iframe>
+            </div>
 
             <!-- Placeholder for future games -->
             <div class="game-card glass p-4 rounded-2xl">
@@ -85,34 +100,36 @@
                 <div class="w-16 h-16 flex items-center justify-center rounded-lg bg-white/4 text-lg font-semibold">🎯</div>
                 <div>
                   <div class="font-semibold">Add Your Game</div>
-                  <div class="text-xs text-white/60">Drop game folder into /games/ and add a link here.</div>
+                  <div class="text-xs text-white/60">Drop game folder into /games/ and add a card here.</div>
                 </div>
               </div>
             </div>
+
           </div>
 
           <section class="mt-6 p-4 bg-white/3 rounded-lg text-sm text-white/80">
             <strong>How to add more games:</strong>
             <ol class="list-decimal list-inside mt-2 text-xs text-white/70">
               <li>Upload a folder with your game inside <code>/games/</code>.</li>
-              <li>Make sure the folder has an <code>index.html</code> pointing to its asset folder (like <code>html5game/</code>).</li>
-              <li>Add a link card in this page pointing to the new <code>index.html</code>.</li>
+              <li>Make sure it contains <code>index.html</code> referencing its asset folder (like <code>html5game/</code>).</li>
+              <li>Add a card in this page pointing to the new game’s index.html (or iframe).</li>
             </ol>
           </section>
+
         </div>
       </main>
     </div>
   </div>
 
   <script>
-    const PASSWORD = "letmein"; // <<<< change this
+    // PASSWORD: change before publishing
+    const PASSWORD = "letmein";
 
     const loginCard = document.getElementById('loginCard');
     const content = document.getElementById('content');
     const enterBtn = document.getElementById('enterBtn');
     const passwordInput = document.getElementById('passwordInput');
     const loginMsg = document.getElementById('loginMsg');
-
     const AUTH_KEY = 'glass_games_portal_authed_v1';
 
     function setAuthed() {
@@ -127,11 +144,6 @@
     function showContent() {
       loginCard.style.display = 'none';
       content.style.display = 'block';
-    }
-
-    function showLogin() {
-      loginCard.style.display = '';
-      content.style.display = 'none';
     }
 
     if (isAuthed()) showContent();
@@ -149,6 +161,15 @@
     passwordInput.addEventListener('keydown', e => {
       if(e.key==='Enter') enterBtn.click();
     });
+
+    function toggleGame(id){
+      const frame = document.getElementById(id);
+      if(frame.classList.contains('hidden')){
+        frame.classList.remove('hidden');
+      } else {
+        frame.classList.add('hidden');
+      }
+    }
   </script>
 </body>
 </html>
