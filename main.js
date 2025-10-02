@@ -1,4 +1,3 @@
-
 (async ()=> {
   const PORTAL_BASE = 'https://bittt0.github.io/Cee/'; // trailing slash
   const RAW_MAIN_JS = 'https://raw.githubusercontent.com/bittt0/Cee/main/main.js';
