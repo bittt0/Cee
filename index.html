@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Glass Games Portal</title>
+  <title>Cee Games Portal</title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
@@ -24,7 +24,7 @@
       box-shadow: 0 6px 30px rgba(2,6,23,0.6);
     }
 
-    .game-card:hover {
+    .card:hover {
       transform: translateY(-6px);
       box-shadow: 0 12px 40px rgba(2,6,23,0.6);
     }
@@ -47,7 +47,7 @@
             </svg>
           </div>
           <div>
-            <h1 class="text-xl font-semibold leading-tight">Glass Games Portal</h1>
+            <h1 class="text-xl font-semibold leading-tight">Cee Games Portal</h1>
             <p class="text-xs text-white/60">Password protected • Mobile friendly</p>
           </div>
         </div>
@@ -74,14 +74,9 @@
 
           <div class="flex flex-col gap-4">
 
-            <!-- Cloak URL button -->
-            <button onclick="cloakURL()" class="glass px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 w-full text-center">
-              Cloak URL
-            </button>
-
-            <!-- Copy bookmarklet button -->
+            <!-- Copy Bookmarklet button -->
             <button onclick="copyBookmarklet()" class="glass px-4 py-3 rounded-xl bg-white/5 hover:bg-white/10 w-full text-center">
-              Copy Bookmarklet
+              Copy Cee Portal Bookmarklet
             </button>
 
             <p id="bookmarkMsg" class="text-sm text-green-400 hidden">Bookmarklet copied!</p>
@@ -94,14 +89,14 @@
 
   <script>
     // PASSWORD
-    const PASSWORD = "letmein"; // change this
+    const PASSWORD = "letmein"; // change before publishing
 
     const loginCard = document.getElementById('loginCard');
     const content = document.getElementById('content');
     const enterBtn = document.getElementById('enterBtn');
     const passwordInput = document.getElementById('passwordInput');
     const loginMsg = document.getElementById('loginMsg');
-    const AUTH_KEY = 'glass_games_portal_authed_v1';
+    const AUTH_KEY = 'cee_games_portal_authed_v1';
 
     function setAuthed() {
       sessionStorage.setItem(AUTH_KEY,'1');
@@ -133,17 +128,16 @@
       if(e.key==='Enter') enterBtn.click();
     });
 
-    // -------- Cloak & Bookmarklet functions --------
-    function cloakURL() {
-      // Replace current URL in the address bar with "about:blank" without reloading
-      history.replaceState({}, '', 'about:blank');
-      alert('URL cloaked to about:blank! You can now use a bookmarklet.');
-    }
-
+    // -------- Copy Bookmarklet that injects portal into about:blank --------
     function copyBookmarklet() {
-      // Bookmarklet to open this portal inside about:blank
-      const portalURL = window.location.href;
-      const code = `javascript:(function(){window.open('${portalURL}','_blank');})();`;
+      const portalURL = window.location.origin + window.location.pathname;
+      const code = `
+      javascript:(function(){
+        const w = window.open('about:blank','_blank');
+        w.document.write('<base target="_self"><script src="${portalURL}"></scr'+'ipt>');
+      })();
+      `.trim().replace(/\n/g,'');
+      
       navigator.clipboard.writeText(code).then(() => {
         const msg = document.getElementById('bookmarkMsg');
         msg.classList.remove('hidden');
