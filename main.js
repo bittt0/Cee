@@ -79,6 +79,7 @@ document.write(`<!DOCTYPE html>
       display: flex;
       justify-content: center;
       align-items: center;
+      z-index: 1000;
     }
     #password-box {
       background: rgba(255, 255, 255, 0.15);
@@ -87,18 +88,23 @@ document.write(`<!DOCTYPE html>
       padding: 2rem;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
     }
     #password-input {
-      padding: 0.5rem;
+      padding: 0.75rem;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.3);
       background: rgba(255, 255, 255, 0.1);
       color: white;
       font-size: 1rem;
-      margin: 0.5rem 0;
+      margin: 1rem 0;
+      width: 200px;
     }
+    #password-input::placeholder { color: rgba(255, 255, 255, 0.6); }
     #password-submit {
       background: rgba(102, 126, 234, 0.8);
+      padding: 0.75rem 1.5rem;
+      font-size: 1rem;
     }
     #password-submit:hover {
       background: rgba(102, 126, 234, 1);
@@ -112,6 +118,7 @@ document.write(`<!DOCTYPE html>
       .glass { padding: 1.5rem; margin: 0.5rem; }
       h1 { font-size: 2.5rem; }
       .game-menu { grid-template-columns: 1fr; }
+      #password-box { padding: 1.5rem; width: 80vw; max-width: 300px; }
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .glass { animation: fadeIn 0.6s ease-out; }
@@ -120,9 +127,10 @@ document.write(`<!DOCTYPE html>
 <body>
   <div id="password-container">
     <div id="password-box">
-      <h2>Enter Password</h2>
-      <input type="password" id="password-input" placeholder="Password">
-      <div><button id="password-submit">Submit</button></div>
+      <h2>Enter Password to Access Cee</h2>
+      <input type="password" id="password-input" placeholder="Password...">
+      <br>
+      <button id="password-submit">Submit</button>
       <div id="error"></div>
     </div>
   </div>
@@ -135,6 +143,9 @@ document.write(`<!DOCTYPE html>
       <button onclick="window.location.href='https://bittt0.github.io/Cee/games/tetris'">Tetris</button>
       <button onclick="window.location.href='https://bittt0.github.io/Cee/games/cookie-clicker'">Cookie Clicker</button>
       <button onclick="window.location.href='https://bittt0.github.io/Cee/games/block-blast'">Block Blast</button>
+    </div>
+    <div style="margin-top: 2rem; opacity: 0.7; font-size: 0.8rem;">
+      <button onclick="window.close()" style="background: rgba(255,0,0,0.2); border-color: rgba(255,0,0,0.3);">Close Window</button>
     </div>
   </div>
 </body>
@@ -155,6 +166,7 @@ function checkPassword() {
   } else {
     error.textContent = 'Incorrect password. Try again.';
     passwordInput.value = '';
+    passwordInput.focus();
   }
 }
 
@@ -167,12 +179,15 @@ passwordInput.addEventListener('keypress', (e) => {
 document.addEventListener('contextmenu', (e) => e.preventDefault());
 
 // Ensure script runs after DOM is loaded
-document.addEventListener('DOMContentLoaded', () => {
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    passwordInput.focus();
+  });
+} else {
   passwordInput.focus();
-});
+}
 
 // Clear any existing content to avoid conflicts
-if (document.body.innerHTML !== '') {
+if (document.body.children.length > 0) {
   document.body.innerHTML = '';
-  document.documentElement.innerHTML = document.documentElement.innerHTML;
 }
