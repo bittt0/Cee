@@ -78,14 +78,13 @@
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
-    #game-content {
-      display: none;
+    #game-iframe {
       width: 100%;
       height: 70vh;
-      margin-top: 1rem;
-      background: rgba(85, 60, 154, 0.3);
+      border: none;
       border-radius: 12px;
-      overflow: auto;
+      background: rgba(85, 60, 154, 0.3);
+      display: none;
     }
     #password-container {
       position: fixed;
@@ -223,7 +222,7 @@
       h1 { font-size: 2rem; }
       .game-menu { grid-template-columns: 1fr; }
       .game-button { padding: 0.6rem; font-size: 0.85rem; }
-      #game-content { height: 60vh; }
+      #game-iframe { height: 60vh; }
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .glass, #password-container { animation: fadeIn 0.6s ease-out; }
@@ -256,11 +255,11 @@
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
       <button class="control-btn" id="settings-btn">Settings</button>
-      <button class="control-btn" id="fullscreen-btn" style="display:none;">Fullscreen</button>
+      <button class="control-btn" onclick="document.getElementById('game-iframe').requestFullscreen()">Game Fullscreen</button>
       <button class="control-btn" id="back-btn" style="display:none;">Back to Homepage</button>
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
-    <div id="game-content"></div>
+    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" onload="console.log('Game loaded:', this.src, 'Content:', this.contentDocument.body.innerHTML.substring(0, 100));" onerror="console.error('Game load failed (404?):', this.src)"></iframe>
     <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
   </div>
   <div id="settings-panel">
@@ -284,10 +283,9 @@
     const passwordSubmit = document.getElementById('password-submit');
     const error = document.getElementById('error');
     const gameMenu = document.getElementById('game-menu');
-    const gameContent = document.getElementById('game-content');
+    const gameIframe = document.getElementById('game-iframe');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsPanel = document.getElementById('settings-panel');
-    const fullscreenBtn = document.getElementById('fullscreen-btn');
     const backBtn = document.getElementById('back-btn');
 
     if (!mainContent || !passwordContainer || !passwordInput || !passwordSubmit) {
@@ -319,44 +317,22 @@
       if (e.target.classList.contains('game-button')) {
         const game = e.target.dataset.game;
         const gameUrl = `https://bittt0.github.io/Cee/games/${game}/index.html`;
-        // Attempt to fetch content (CORS permitting), fallback to new window
-        fetch(gameUrl)
-          .then(response => {
-            if (!response.ok) throw new Error('Network response was not ok');
-            return response.text();
-          })
-          .then(html => {
-            gameContent.innerHTML = html;
-            gameContent.style.display = 'block';
-            gameMenu.style.display = 'none';
-            fullscreenBtn.style.display = 'inline-block';
-            backBtn.style.display = 'inline-block';
-            console.log('Game content loaded:', gameUrl);
-          })
-          .catch(error => {
-            console.error('Failed to load game content:', error);
-            window.open(gameUrl, '_blank');
-            console.log('Opened game in new window:', gameUrl);
-          });
+        gameIframe.src = gameUrl;
+        gameIframe.style.display = 'block';
+        gameMenu.style.display = 'none';
+        document.querySelector('.controls').style.display = 'flex';
+        backBtn.style.display = 'inline-block';
+        console.log('Attempting to load game:', gameUrl);
       }
     });
 
     backBtn.addEventListener('click', () => {
-      gameContent.style.display = 'none';
-      gameContent.innerHTML = '';
+      gameIframe.src = '';
+      gameIframe.style.display = 'none';
       gameMenu.style.display = 'grid';
-      fullscreenBtn.style.display = 'none';
       backBtn.style.display = 'none';
+      document.querySelector('.controls').style.display = 'flex';
       console.log('Returned to homepage');
-    });
-
-    fullscreenBtn.addEventListener('click', () => {
-      if (document.fullscreenElement) {
-        document.exitFullscreen();
-      } else if (gameContent.requestFullscreen) {
-        gameContent.requestFullscreen();
-      }
-      console.log('Toggled fullscreen');
     });
 
     settingsBtn.addEventListener('click', () => {
@@ -388,7 +364,7 @@
         alert('Please select an image file.');
       }
       settingsPanel.style.display = 'none';
-    });
+    };
 
     document.addEventListener('contextmenu', (e) => e.preventDefault());
 
