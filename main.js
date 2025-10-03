@@ -1,16 +1,13 @@
-javascript:(function(){
-  var w = window.open('about:blank', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
-  w.document.write(`<!DOCTYPE html>
+document.documentElement.innerHTML = '';
+document.write(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Cee</title>
   <style>
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      margin: 0;
-      padding: 0;
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
@@ -32,45 +29,29 @@ javascript:(function(){
       max-width: 90vw;
       width: 100%;
       margin: 1rem;
+      transition: opacity 0.3s ease;
     }
+    .hidden { opacity: 0; pointer-events: none; }
     h1 {
-      margin: 0 0 1.5rem;
       font-size: 3.5rem;
       font-weight: 300;
       background: linear-gradient(45deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      background-clip: text;
       letter-spacing: 2px;
+      margin-bottom: 1.5rem;
     }
     .subtitle {
-      margin: 0 0 2rem;
       opacity: 0.8;
       font-size: 1.1rem;
       font-style: italic;
+      margin-bottom: 2rem;
     }
-    .iframe-container {
-      width: 100%;
-      height: 60vh;
-      min-height: 400px;
-      border-radius: 16px;
-      overflow: hidden;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-      display: block;
-    }
-    .controls {
-      margin-top: 1rem;
-      display: flex;
+    .game-menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
+      margin-top: 1rem;
     }
     button {
       background: rgba(255, 255, 255, 0.1);
@@ -78,7 +59,7 @@ javascript:(function(){
       border: 1px solid rgba(255, 255, 255, 0.2);
       border-radius: 12px;
       color: white;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem;
       cursor: pointer;
       font-size: 1rem;
       transition: all 0.3s ease;
@@ -88,45 +69,110 @@ javascript:(function(){
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     }
+    #password-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #password-box {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      border-radius: 16px;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    #password-input {
+      padding: 0.5rem;
+      border-radius: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.1);
+      color: white;
+      font-size: 1rem;
+      margin: 0.5rem 0;
+    }
+    #password-submit {
+      background: rgba(102, 126, 234, 0.8);
+    }
+    #password-submit:hover {
+      background: rgba(102, 126, 234, 1);
+    }
+    #error {
+      color: #ff6b6b;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
     @media (max-width: 768px) {
       .glass { padding: 1.5rem; margin: 0.5rem; }
       h1 { font-size: 2.5rem; }
-      .iframe-container { height: 50vh; }
-      .controls { flex-direction: column; align-items: center; }
+      .game-menu { grid-template-columns: 1fr; }
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .glass { animation: fadeIn 0.6s ease-out; }
   </style>
 </head>
 <body>
-  <div class="glass">
-    <h1>Cee</h1>
-    <p class="subtitle">Your Gateway to Epic Games</p>
-    <div class="iframe-container">
-      <iframe src="https://bittt0.github.io/Cee" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
-    </div>
-    <div class="controls">
-      <button onclick="document.querySelector('iframe').requestFullscreen()">Fullscreen</button>
-      <button onclick="window.location.reload()">Refresh</button>
-      <button onclick="window.close()">Close</button>
+  <div id="password-container">
+    <div id="password-box">
+      <h2>Enter Password</h2>
+      <input type="password" id="password-input" placeholder="Password">
+      <div><button id="password-submit">Submit</button></div>
+      <div id="error"></div>
     </div>
   </div>
-  <script>
-    // Add smooth scroll to iframe if needed
-    window.addEventListener('load', function() {
-      const iframe = document.querySelector('iframe');
-      iframe.onload = function() {
-        console.log('Cee loaded!');
-      };
-    });
-    // Handle fullscreen errors gracefully
-    document.addEventListener('fullscreenchange', function() {
-      if (!document.fullscreenElement) {
-        document.querySelector('.iframe-container').style.height = '60vh';
-      }
-    });
-  </script>
+  <div class="glass hidden" id="main-content">
+    <h1>Cee</h1>
+    <p class="subtitle">Your Gateway to Epic Games</p>
+    <div class="game-menu">
+      <button onclick="window.location.href='https://bittt0.github.io/Cee/games/subway-surfers'">Subway Surfers</button>
+      <button onclick="window.location.href='https://bittt0.github.io/Cee/games/snake'">Snake</button>
+      <button onclick="window.location.href='https://bittt0.github.io/Cee/games/tetris'">Tetris</button>
+      <button onclick="window.location.href='https://bittt0.github.io/Cee/games/cookie-clicker'">Cookie Clicker</button>
+      <button onclick="window.location.href='https://bittt0.github.io/Cee/games/block-blast'">Block Blast</button>
+    </div>
+  </div>
 </body>
 </html>`);
-  w.document.close();
-})();
+
+const mainContent = document.getElementById('main-content');
+const passwordContainer = document.getElementById('password-container');
+const passwordInput = document.getElementById('password-input');
+const passwordSubmit = document.getElementById('password-submit');
+const error = document.getElementById('error');
+
+function checkPassword() {
+  if (passwordInput.value === 'letmein') {
+    passwordContainer.style.display = 'none';
+    mainContent.classList.remove('hidden');
+    // Randomize window name to evade GoGuardian tracking
+    window.name = 'cee_' + Math.random().toString(36).substring(2);
+  } else {
+    error.textContent = 'Incorrect password. Try again.';
+    passwordInput.value = '';
+  }
+}
+
+passwordSubmit.addEventListener('click', checkPassword);
+passwordInput.addEventListener('keypress', (e) => {
+  if (e.key === 'Enter') checkPassword();
+});
+
+// Prevent context menu to reduce fingerprinting by filters
+document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+// Ensure script runs after DOM is loaded
+document.addEventListener('DOMContentLoaded', () => {
+  passwordInput.focus();
+});
+
+// Clear any existing content to avoid conflicts
+if (document.body.innerHTML !== '') {
+  document.body.innerHTML = '';
+  document.documentElement.innerHTML = document.documentElement.innerHTML;
+}
