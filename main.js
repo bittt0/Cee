@@ -1,20 +1,30 @@
-document.documentElement.innerHTML = '';
-document.write(`<!DOCTYPE html>
+(function() {
+  // Clear existing content safely
+  try {
+    document.documentElement.innerHTML = '';
+  } catch (e) {
+    console.error('Error clearing document:', e);
+  }
+
+  // Write full HTML
+  document.write(`<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cee</title>
   <style>
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
       overflow: auto;
+      -webkit-user-select: none; user-select: none;
+      touch-action: manipulation;
     }
     .glass {
       background: rgba(255, 255, 255, 0.1);
@@ -33,23 +43,24 @@ document.write(`<!DOCTYPE html>
     }
     .hidden { opacity: 0; pointer-events: none; }
     h1 {
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 300;
       background: linear-gradient(45deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
       -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      color: transparent;
       letter-spacing: 2px;
       margin-bottom: 1.5rem;
     }
     .subtitle {
       opacity: 0.8;
-      font-size: 1.1rem;
+      font-size: 1rem;
       font-style: italic;
       margin-bottom: 2rem;
     }
     .game-menu {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
       gap: 1rem;
       margin-top: 1rem;
     }
@@ -61,10 +72,11 @@ document.write(`<!DOCTYPE html>
       color: white;
       padding: 0.75rem;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
+      -webkit-tap-highlight-color: transparent;
     }
-    button:hover {
+    button:hover, button:active {
       background: rgba(255, 255, 255, 0.2);
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
@@ -85,10 +97,12 @@ document.write(`<!DOCTYPE html>
       background: rgba(255, 255, 255, 0.15);
       backdrop-filter: blur(15px);
       border-radius: 16px;
-      padding: 2rem;
+      padding: 1.5rem;
       text-align: center;
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
+      width: 80vw;
+      max-width: 300px;
     }
     #password-input {
       padding: 0.75rem;
@@ -98,7 +112,8 @@ document.write(`<!DOCTYPE html>
       color: white;
       font-size: 1rem;
       margin: 1rem 0;
-      width: 200px;
+      width: 100%;
+      outline: none;
     }
     #password-input::placeholder { color: rgba(255, 255, 255, 0.6); }
     #password-submit {
@@ -106,29 +121,29 @@ document.write(`<!DOCTYPE html>
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
     }
-    #password-submit:hover {
+    #password-submit:hover, #password-submit:active {
       background: rgba(102, 126, 234, 1);
     }
     #error {
       color: #ff6b6b;
-      font-size: 0.9rem;
+      font-size: 0.8rem;
       margin-top: 0.5rem;
     }
     @media (max-width: 768px) {
-      .glass { padding: 1.5rem; margin: 0.5rem; }
-      h1 { font-size: 2.5rem; }
+      .glass { padding: 1rem; margin: 0.5rem; }
+      h1 { font-size: 2rem; }
       .game-menu { grid-template-columns: 1fr; }
-      #password-box { padding: 1.5rem; width: 80vw; max-width: 300px; }
+      button { padding: 0.6rem; font-size: 0.85rem; }
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-    .glass { animation: fadeIn 0.6s ease-out; }
+    .glass, #password-container { animation: fadeIn 0.6s ease-out; }
   </style>
 </head>
 <body>
   <div id="password-container">
     <div id="password-box">
-      <h2>Enter Password to Access Cee</h2>
-      <input type="password" id="password-input" placeholder="Password...">
+      <h2>Enter Password</h2>
+      <input type="password" id="password-input" placeholder="Password..." autocomplete="off">
       <br>
       <button id="password-submit">Submit</button>
       <div id="error"></div>
@@ -144,50 +159,58 @@ document.write(`<!DOCTYPE html>
       <button onclick="window.location.href='https://bittt0.github.io/Cee/games/cookie-clicker'">Cookie Clicker</button>
       <button onclick="window.location.href='https://bittt0.github.io/Cee/games/block-blast'">Block Blast</button>
     </div>
-    <div style="margin-top: 2rem; opacity: 0.7; font-size: 0.8rem;">
+    <div style="margin-top: 1.5rem;">
       <button onclick="window.close()" style="background: rgba(255,0,0,0.2); border-color: rgba(255,0,0,0.3);">Close Window</button>
     </div>
   </div>
 </body>
 </html>`);
 
-const mainContent = document.getElementById('main-content');
-const passwordContainer = document.getElementById('password-container');
-const passwordInput = document.getElementById('password-input');
-const passwordSubmit = document.getElementById('password-submit');
-const error = document.getElementById('error');
+  try {
+    const mainContent = document.getElementById('main-content');
+    const passwordContainer = document.getElementById('password-container');
+    const passwordInput = document.getElementById('password-input');
+    const passwordSubmit = document.getElementById('password-submit');
+    const error = document.getElementById('error');
 
-function checkPassword() {
-  if (passwordInput.value === 'letmein') {
-    passwordContainer.style.display = 'none';
-    mainContent.classList.remove('hidden');
-    // Randomize window name to evade GoGuardian tracking
-    window.name = 'cee_' + Math.random().toString(36).substring(2);
-  } else {
-    error.textContent = 'Incorrect password. Try again.';
-    passwordInput.value = '';
-    passwordInput.focus();
+    if (!mainContent || !passwordContainer || !passwordInput || !passwordSubmit) {
+      console.error('DOM elements missing:', { mainContent, passwordContainer, passwordInput, passwordSubmit });
+      document.body.innerHTML = '<h1 style="color:#ff6b6b;text-align:center;">Error: UI failed to load. Check console.</h1>';
+      return;
+    }
+
+    function checkPassword() {
+      if (passwordInput.value === 'letmein') {
+        passwordContainer.style.display = 'none';
+        mainContent.classList.remove('hidden');
+        window.name = 'cee_' + Math.random().toString(36).substring(2);
+        console.log('Password accepted, UI shown');
+      } else {
+        error.textContent = 'Incorrect password. Try again.';
+        passwordInput.value = '';
+        passwordInput.focus();
+        console.warn('Incorrect password entered');
+      }
+    }
+
+    passwordSubmit.addEventListener('click', checkPassword);
+    passwordInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') checkPassword();
+    });
+
+    document.addEventListener('contextmenu', (e) => e.preventDefault());
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', () => {
+        passwordInput.focus();
+        console.log('DOM loaded, focusing password input');
+      });
+    } else {
+      passwordInput.focus();
+      console.log('DOM already loaded, focusing password input');
+    }
+  } catch (e) {
+    console.error('Script error:', e);
+    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:Arial;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
   }
-}
-
-passwordSubmit.addEventListener('click', checkPassword);
-passwordInput.addEventListener('keypress', (e) => {
-  if (e.key === 'Enter') checkPassword();
-});
-
-// Prevent context menu to reduce fingerprinting by filters
-document.addEventListener('contextmenu', (e) => e.preventDefault());
-
-// Ensure script runs after DOM is loaded
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', () => {
-    passwordInput.focus();
-  });
-} else {
-  passwordInput.focus();
-}
-
-// Clear any existing content to avoid conflicts
-if (document.body.children.length > 0) {
-  document.body.innerHTML = '';
-}
+})();
