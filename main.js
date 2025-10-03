@@ -77,17 +77,19 @@
           z-index: 1000;
         }
         .glass-card {
-          background: rgba(85, 60, 154, 0.2);
-          backdrop-filter: blur(20px);
-          -webkit-backdrop-filter: blur(20px);
+          background: rgba(85, 60, 154, 0.15);
+          backdrop-filter: blur(25px);
+          -webkit-backdrop-filter: blur(25px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           padding: 1.5rem;
           width: 90vw;
           max-width: 600px;
           box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
           text-align: center;
           color: white;
+          /* Fallback for browsers without backdrop-filter */
+          background: rgba(85, 60, 154, 0.4) !important;
         }
         .hidden { display: none; }
         .title {
@@ -108,10 +110,10 @@
           margin: 1rem 0;
         }
         .game-button, .control-btn {
-          background: rgba(107, 70, 193, 0.3);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(107, 70, 193, 0.2);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           border-radius: 12px;
           color: white;
           padding: 0.8rem 1.2rem;
@@ -119,38 +121,44 @@
           font-size: 1rem;
           font-weight: normal;
           transition: all 0.3s ease;
+          /* Fallback */
+          background: rgba(107, 70, 193, 0.4) !important;
         }
         .game-button:hover, .control-btn:hover {
-          background: rgba(107, 70, 193, 0.5);
+          background: rgba(107, 70, 193, 0.4);
           transform: translateY(-2px);
           box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         #password-input {
           padding: 0.7rem;
           border-radius: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          background: rgba(85, 60, 154, 0.4);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          background: rgba(85, 60, 154, 0.2);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
           color: white;
           font-size: 1rem;
           font-weight: normal;
           margin: 1rem 0;
           width: 100%;
           outline: none;
+          /* Fallback */
+          background: rgba(85, 60, 154, 0.4) !important;
         }
         #password-input::placeholder { color: rgba(255, 255, 255, 0.7); }
         #password-submit {
-          background: rgba(107, 70, 193, 0.4);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(107, 70, 193, 0.2);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           padding: 0.7rem 1.5rem;
           font-size: 1rem;
           font-weight: normal;
           border-radius: 8px;
+          /* Fallback */
+          background: rgba(107, 70, 193, 0.4) !important;
         }
-        #password-submit:hover { background: rgba(107, 70, 193, 0.6); }
+        #password-submit:hover { background: rgba(107, 70, 193, 0.4); }
         #error { color: #ff6b6b; font-size: 0.9rem; font-weight: normal; margin-top: 0.5rem; }
         #game-frame {
           width: 100%;
@@ -159,33 +167,39 @@
           border-radius: 15px;
           display: none;
           background: rgba(255, 255, 255, 0.1);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          /* Fallback */
+          background: rgba(255, 255, 255, 0.2) !important;
         }
         #settings-panel input {
           width: 100%;
           padding: 0.5rem;
           margin: 0.5rem 0;
-          background: rgba(85, 60, 154, 0.4);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(85, 60, 154, 0.2);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           color: white;
           border-radius: 6px;
           font-weight: normal;
+          /* Fallback */
+          background: rgba(85, 60, 154, 0.4) !important;
         }
         #settings-panel input[type="file"] { color: white; padding: 0; }
         #settings-panel button {
-          background: rgba(107, 70, 193, 0.4);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: rgba(107, 70, 193, 0.2);
+          backdrop-filter: blur(15px);
+          -webkit-backdrop-filter: blur(15px);
+          border: 1px solid rgba(255, 255, 255, 0.3);
           padding: 0.5rem;
           margin-top: 0.5rem;
           font-weight: normal;
           border-radius: 6px;
+          /* Fallback */
+          background: rgba(107, 70, 193, 0.4) !important;
         }
-        #settings-panel button:hover { background: rgba(107, 70, 193, 0.6); }
+        #settings-panel button:hover { background: rgba(107, 70, 193, 0.4); }
         .secret-btn {
           position: absolute;
           bottom: 20px;
@@ -216,8 +230,8 @@
     `;
     document.body.innerHTML = html;
 
-    // Initialize script
-    document.addEventListener('DOMContentLoaded', function() {
+    // Initialize script with deferred execution
+    setTimeout(() => {
       try {
         const passwordContainer = document.getElementById('password-container');
         const passwordInput = document.getElementById('password-input');
@@ -330,7 +344,7 @@
         console.error('Script error:', e);
         document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
       }
-    });
+    }, 0); // Deferred execution to ensure DOM readiness
   } catch (e) {
     console.error('Script error:', e);
     document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
