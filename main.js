@@ -305,13 +305,19 @@
       if (e.target.classList.contains('game-button')) {
         const game = e.target.dataset.game;
         const gameUrl = `https://bittt0.github.io/Cee/games/${game}/index.html`;
-        window.location.href = gameUrl;
-        console.log('Navigating to game:', gameUrl);
+        const gameWindow = window.open(gameUrl, '_blank');
+        if (gameWindow) {
+          backBtn.style.display = 'inline-block';
+          console.log('Opened game in new window:', gameUrl);
+        } else {
+          console.error('Failed to open new window, likely blocked by popup settings');
+        }
       }
     });
 
     backBtn.addEventListener('click', () => {
-      window.location.href = 'about:blank'; // Reloads the bookmarklet page
+      // Reload the bookmarklet page to restore the menu
+      window.location.href = 'about:blank'; // This reloads the bookmarklet
       console.log('Returning to homepage');
     });
 
@@ -346,15 +352,6 @@
       settingsPanel.style.display = 'none';
     });
 
-    // Show back button when navigating away (via history or manual back)
-    window.addEventListener('popstate', () => {
-      if (window.location.href !== 'about:blank') {
-        backBtn.style.display = 'inline-block';
-      } else {
-        backBtn.style.display = 'none';
-      }
-    });
-
     document.addEventListener('contextmenu', (e) => e.preventDefault());
 
     if (document.readyState === 'loading') {
@@ -368,6 +365,6 @@
     }
   } catch (e) {
     console.error('Script error:', e);
-    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
+    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;'>Error: ' + e.message + '. Check console (F12).</h1>';
   }
 })();
