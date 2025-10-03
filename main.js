@@ -78,6 +78,15 @@
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
+    #game-content {
+      display: none;
+      width: 100%;
+      height: 70vh;
+      margin-top: 1rem;
+      background: rgba(85, 60, 154, 0.3);
+      border-radius: 12px;
+      overflow: auto;
+    }
     #password-container {
       position: fixed;
       top: 0;
@@ -214,6 +223,7 @@
       h1 { font-size: 2rem; }
       .game-menu { grid-template-columns: 1fr; }
       .game-button { padding: 0.6rem; font-size: 0.85rem; }
+      #game-content { height: 60vh; }
     }
     @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
     .glass, #password-container { animation: fadeIn 0.6s ease-out; }
@@ -246,9 +256,11 @@
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
       <button class="control-btn" id="settings-btn">Settings</button>
+      <button class="control-btn" id="fullscreen-btn" style="display:none;">Fullscreen</button>
       <button class="control-btn" id="back-btn" style="display:none;">Back to Homepage</button>
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
+    <div id="game-content"></div>
     <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
   </div>
   <div id="settings-panel">
@@ -272,8 +284,10 @@
     const passwordSubmit = document.getElementById('password-submit');
     const error = document.getElementById('error');
     const gameMenu = document.getElementById('game-menu');
+    const gameContent = document.getElementById('game-content');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsPanel = document.getElementById('settings-panel');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
     const backBtn = document.getElementById('back-btn');
 
     if (!mainContent || !passwordContainer || !passwordInput || !passwordSubmit) {
@@ -305,14 +319,44 @@
       if (e.target.classList.contains('game-button')) {
         const game = e.target.dataset.game;
         const gameUrl = `https://bittt0.github.io/Cee/games/${game}/index.html`;
-        window.location.href = gameUrl;
-        console.log('Navigating to game:', gameUrl);
+        // Attempt to fetch content (CORS permitting), fallback to new window
+        fetch(gameUrl)
+          .then(response => {
+            if (!response.ok) throw new Error('Network response was not ok');
+            return response.text();
+          })
+          .then(html => {
+            gameContent.innerHTML = html;
+            gameContent.style.display = 'block';
+            gameMenu.style.display = 'none';
+            fullscreenBtn.style.display = 'inline-block';
+            backBtn.style.display = 'inline-block';
+            console.log('Game content loaded:', gameUrl);
+          })
+          .catch(error => {
+            console.error('Failed to load game content:', error);
+            window.open(gameUrl, '_blank');
+            console.log('Opened game in new window:', gameUrl);
+          });
       }
     });
 
     backBtn.addEventListener('click', () => {
-      window.location.href = 'about:blank'; // Reloads the bookmarklet page
-      console.log('Returning to homepage');
+      gameContent.style.display = 'none';
+      gameContent.innerHTML = '';
+      gameMenu.style.display = 'grid';
+      fullscreenBtn.style.display = 'none';
+      backBtn.style.display = 'none';
+      console.log('Returned to homepage');
+    });
+
+    fullscreenBtn.addEventListener('click', () => {
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      } else if (gameContent.requestFullscreen) {
+        gameContent.requestFullscreen();
+      }
+      console.log('Toggled fullscreen');
     });
 
     settingsBtn.addEventListener('click', () => {
@@ -344,15 +388,6 @@
         alert('Please select an image file.');
       }
       settingsPanel.style.display = 'none';
-    });
-
-    // Show back button when navigating away (via history or manual back)
-    window.addEventListener('popstate', () => {
-      if (window.location.href !== 'about:blank') {
-        backBtn.style.display = 'inline-block';
-      } else {
-        backBtn.style.display = 'none';
-      }
     });
 
     document.addEventListener('contextmenu', (e) => e.preventDefault());
