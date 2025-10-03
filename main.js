@@ -6,7 +6,7 @@
   }
 
   // Editable secret button message (customize this string in the code)
-  const SECRET_MESSAGE = 'fuck you zain m';
+  const SECRET_MESSAGE = 'Secret unlocked: You found the button! 🎉';
 
   document.write(`<!DOCTYPE html>
 <html lang="en">
@@ -255,10 +255,11 @@
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
       <button class="control-btn" id="settings-btn">Settings</button>
-      <button class="control-btn" onclick="document.getElementById('game-iframe').requestFullscreen()">Fullscreen</button>
+      <button class="control-btn" onclick="document.getElementById('game-iframe').requestFullscreen()">Game Fullscreen</button>
+      <button class="control-btn" id="back-btn" style="display:none;">Back to Homepage</button>
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
-    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" onload="console.log('Game loaded:', this.src)" onerror="console.error('Game load failed (404?):', this.src)"></iframe>
+    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" onload="console.log('Game loaded:', this.src, 'Content:', this.contentDocument.body.innerHTML.substring(0, 100));" onerror="console.error('Game load failed (404?):', this.src)"></iframe>
     <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
   </div>
   <div id="settings-panel">
@@ -285,6 +286,7 @@
     const gameIframe = document.getElementById('game-iframe');
     const settingsBtn = document.getElementById('settings-btn');
     const settingsPanel = document.getElementById('settings-panel');
+    const backBtn = document.getElementById('back-btn');
 
     if (!mainContent || !passwordContainer || !passwordInput || !passwordSubmit) {
       console.error('DOM elements missing');
@@ -318,9 +320,19 @@
         gameIframe.src = gameUrl;
         gameIframe.style.display = 'block';
         gameMenu.style.display = 'none';
-        document.querySelector('.controls').style.display = 'none';
+        document.querySelector('.controls').style.display = 'flex';
+        backBtn.style.display = 'inline-block';
         console.log('Attempting to load game:', gameUrl);
       }
+    });
+
+    backBtn.addEventListener('click', () => {
+      gameIframe.src = '';
+      gameIframe.style.display = 'none';
+      gameMenu.style.display = 'grid';
+      backBtn.style.display = 'none';
+      document.querySelector('.controls').style.display = 'flex';
+      console.log('Returned to homepage');
     });
 
     settingsBtn.addEventListener('click', () => {
