@@ -1,0 +1,186 @@
+<html class="ui-mobile"><head profile="http://dublincore.org/documents/dcq-html/"><base href="https://omerkel.github.io/PolyominoBlocks/html5/src/">
+  <link rel="icon" href="img/icons/favicon.ico" type="image/x-icon">
+  <link rel="schema.DC" href="http://purl.org/dc/elements/1.1/">
+  <link rel="schema.DCTERMS" href="http://purl.org/dc/terms/">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta charset="UTF-8">
+  <meta name="AUTHOR" content="Oliver Merkel">
+  <meta name="COPYRIGHT" content="Oliver Merkel">
+  <meta name="DC.creator" content="Oliver Merkel">
+  <meta name="DC.contributor" content="Oliver Merkel">
+  <meta name="DC.rights" content="
+See file named LICENSE being part of the repository.
+
+Copyright (c) 2019
+@author Oliver Merkel, Merkel(dot)Oliver(at)web(dot)de.
+All rights reserved.
+
+Logos, brands, and trademarks belong to their respective owners.
+
+All source code also including code parts written in HMTL, Javascript, CSS is under MIT License.
+
+The MIT License (MIT)
+
+Copyright (c) 2019 Oliver Merkel, Merkel(dot)Oliver(at)web(dot)de
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the &quot;Software&quot;), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+If not otherwise stated all graphics (independent of its format) are licensed under
+    http://creativecommons.org/licenses/by-nc-sa/4.0
+    Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License.
+">
+  <title>Polyomino Blocks</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <link rel="apple-touch-icon" href="img/icons/polyomino128.png">
+  <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport">
+  <link rel="stylesheet" type="text/css" href="thirdparty/jquery.mobile-1.4.5/jquery.mobile-1.4.5.css">
+  <link rel="stylesheet" type="text/css" href="css/index.css">
+  <script src="thirdparty/jquery-2.2.4.js" type="text/javascript"></script>
+  <script src="thirdparty/jquery.mobile-1.4.5/jquery.mobile-1.4.5.js" type="text/javascript"></script>
+  <script src="thirdparty/raphael-2.2.0/raphael.js" type="text/javascript"></script>
+  <script src="js/hmi.js" type="text/javascript" defer=""></script>
+</head>
+<body class="ui-mobile-viewport ui-overlay-b">
+<div data-role="page" data-theme="b" id="game-page" class="mybackground ui-page ui-page-theme-b ui-page-header-fixed ui-page-active" data-url="game-page" tabindex="0" style="padding-top: 23px; background-size: auto 870.675px; min-height: 934px;">
+  <div data-role="header" data-position="fixed" role="banner" class="ui-header ui-bar-inherit ui-header-fixed slidedown">
+    <center id="myheader">Polyomino Blocks - score: 0</center>
+    <a href="#left-panel" id="customMenu" class="customMenu ui-link ui-btn-left ui-btn ui-icon-custom ui-btn-icon-notext ui-shadow ui-corner-all" data-icon="custom" data-iconpos="notext" data-role="button" role="button" style="width: 81.8583px; height: 81.8583px; background-size: 81.8583px 81.8583px;">Menu</a>
+  </div><!-- /header -->
+  <div role="main" class="mycontent ui-content">
+    <noscript>
+      <p>This HTML5 application depends on enabled Javascript capabilities in your browser.</p>
+      <p>Please consider enabling Javascript if disabled through settings.</p>
+    </noscript>
+    <center>
+      <div id="board" style="margin-top: 0px;"><svg height="893" version="1.1" width="580.45" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative;" viewBox="0 0 260 400" preserveAspectRatio="xMinYMin"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël @@VERSION</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><rect x="0" y="0" width="260" height="400" rx="0" ry="0" fill="#2f4f4f" stroke="#444444" stroke-width="0.2" stroke-linecap="round" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-linecap: round;"></rect><path fill="none" stroke="#000000" d="M0,0L180,0M0,0L0,180" stroke-width="3" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,20L180,20M20,0L20,180" stroke-width="1" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,40L180,40M40,0L40,180" stroke-width="1" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,60L180,60M60,0L60,180" stroke-width="3" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,80L180,80M80,0L80,180" stroke-width="1" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,100L180,100M100,0L100,180" stroke-width="1" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,120L180,120M120,0L120,180" stroke-width="3" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,140L180,140M140,0L140,180" stroke-width="1" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,160L180,160M160,0L160,180" stroke-width="1" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,180L180,180M180,0L180,180" stroke-width="3" transform="matrix(1,0,0,1,40,200)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M0,0" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="1"></path><path fill="#ff0000" stroke="#000000" d="M0,0L20,0L20,20L0,20L0,0ZM0,20L20,20L20,40L0,40L0,20ZM0,40L20,40L20,60L0,60L0,40ZM20,40L40,40L40,60L20,60L20,40ZM40,40L60,40L60,60L40,60L40,40Z" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);" stroke-width="5" transform="matrix(1,0,0,1,100,40)"></path><path fill="#ff0000" stroke="#000000" d="M0,0L20,0L20,20L0,20L0,0ZM20,0L40,0L40,20L20,20L20,0ZM40,0L60,0L60,20L40,20L40,0Z" stroke-width="5" transform="matrix(1,0,0,1,40,130)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="#ff0000" stroke="#000000" d="M20,0L40,0L40,20L20,20L20,0ZM40,0L60,0L60,20L40,20L40,0ZM0,20L20,20L20,40L0,40L0,20ZM20,20L40,20L40,40L20,40L20,20Z" stroke-width="5" transform="matrix(1,0,0,1,160,120)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path></svg></div>
+      <div id="score"></div>
+    </center>
+  </div><!-- /content -->
+  <div data-role="panel" id="left-panel" data-position="left" data-display="overlay" data-theme="b" class="ui-panel ui-panel-position-left ui-panel-display-overlay ui-panel-closed ui-body-b ui-panel-animate">
+    <div class="ui-panel-inner"><ul data-role="listview" data-theme="b" data-divider-theme="d" data-icon="false" data-global-nav="demos" class="jqm-list ui-listview ui-group-theme-b">
+      <li data-icon="carat-l" data-rel="close" class="ui-first-child"><a href="#" class="ui-btn ui-btn-icon-right ui-icon-carat-l">Close Menu</a></li>
+      <li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-d">&nbsp;</li>
+      <li data-icon="refresh"><a id="restart" class="ui-btn ui-btn-icon-right ui-icon-refresh">Restart</a></li>
+      <li data-role="list-divider" role="heading" class="ui-li-divider ui-bar-d">&nbsp;</li>
+      <li data-icon="info"><a href="#rules-page" data-rel="page" data-transition="pop" class="ui-btn ui-btn-icon-right ui-icon-info">Rules…</a></li>
+      <li data-icon="info" class="ui-last-child"><a href="#about-page" data-rel="page" data-transition="pop" class="ui-btn ui-btn-icon-right ui-icon-info">About…</a></li>
+    </ul></div>
+  </div><!-- /panel -->
+</div><!-- /page -->
+<div data-role="page" data-theme="b" id="rules-page" data-url="rules-page">
+  <div data-role="header">
+    <a href="#" data-rel="back" id="customBackRules" class="customBack ui-btn ui-icon-custom ui-btn-icon-right ui-btn-icon-notext ui-corner-all" style="width: 81.8583px; height: 81.8583px; background-size: 81.8583px 81.8583px;">Back</a>
+    <h4>Rules</h4>
+  </div><!-- /header -->
+  <div role="main" class="ui-content">
+    <br>
+    <p>A set of 3 random polyomino shapes is presented on top of the screen.
+      The player drags and drops the polyominos onto free positions of a grid
+      sized 9x9. Depending on the size of the shape the player scores points.
+      Additional points are scored whenever a column, row or a 3x3 subblock is
+      completely filled and therefore gets removed. Game play continues until
+      it is impossible to place a remaining polyomino shape.</p>
+    <br clear="all">
+    <p>Have fun and enjoy the game…</p>
+    <a href="#" data-role="button" data-icon="back" data-rel="back">Back</a>
+  </div><!-- /content -->
+</div><!-- /page -->
+
+<div data-role="page" data-theme="b" id="about-page" data-url="about-page">
+  <div data-role="header">
+    <a href="#" data-rel="back" id="customBackAbout" class="customBack ui-btn ui-icon-custom ui-btn-icon-right ui-btn-icon-notext ui-corner-all" style="width: 81.8583px; height: 81.8583px; background-size: 81.8583px 81.8583px;">Back</a>
+    <h4>About Polyomino Blocks</h4>
+  </div><!-- /header -->
+  <div role="main" class="ui-content">
+    <figure class="author" style="float: right;">
+      <img src="img/oliver-1908.jpg">
+      <figcaption>Oliver Merkel, <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0" target="_blank">cc-by-nc-nd 4.0</a>.</figcaption>
+    </figure>
+    <br>
+    <h3>Legal</h3>
+    <p>Copyright (c) 2019<br>
+    <b>@author</b> <em>Oliver Merkel</em>, Merkel(dot) Oliver(at) web(dot) de.<br>
+    All rights reserved.<br>
+    Logos, brands, and trademarks belong to their respective owners.</p>
+    <p>All source code also including code parts written in HMTL, Javascript, CSS is under MIT License.</p>
+    <h4>The MIT License (MIT)</h4>
+    <p>Copyright (c) 2019 Oliver Merkel, Merkel(dot) Oliver(at) web(dot)de</p>
+
+    <p>Permission is hereby granted, free of charge, to any person obtaining a copy of
+    this software and associated documentation files (the "Software"), to deal in
+    the Software without restriction, including without limitation the rights to
+    use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+    the Software, and to permit persons to whom the Software is furnished to do so,
+    subject to the following conditions:</p>
+
+    <p>The above copyright notice and this permission notice shall be included in all
+    copies or substantial portions of the Software.</p>
+
+    <p>THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+    FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+    COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+    IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+    CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</p>
+
+    <p>If not otherwise stated all graphics (independent of its format) are licensed under
+      <br><a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0" target="_blank"><img alt="Creative Commons License" style="border-width:0" src="img/icons/cc_by_nc_sa.png"></a><br>
+      <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0" target="_blank">Creative Commons Attribution-NonCommercial-ShareAlike 4.0
+      International License</a>.
+    </p>
+
+    <div data-role="collapsible-set" data-theme="c" data-content-theme="d" data-iconpos="right" data-collapsed-icon="arrow-l" data-expanded-icon="arrow-d">
+    <div data-role="collapsible">
+      <h4>Polyomino Blocks Principles and Concepts</h4>
+      <p><em>Polyomino Blocks</em> implements a solitaire game.</p>
+      <p>The term Polyomino decribes a geometric shape. A Polyomino consists
+        of concatenated equal sized squares. Numerous puzzles exist using such
+        Polyominoes to form or fill a given greater shape like in Tangram.</p>
+      <p>Another principle used in this game is the removal of completed lines
+        or subform as in the game of Tetris. So that game play could last
+        endlessly since free space for new Polyominoes is recreated. Unlike
+        Tetris the Polyomino Blocks game is turn-based without time pressure.</p>
+    </div><!-- collapsible -->
+    <div data-role="collapsible">
+      <h4>Third Party Code Licenses</h4>
+      <p>This <b>Polyomino Blocks</b> implementation uses unmodified
+      independent code libraries provided by <em>third parties</em>.
+      Since their licenses might vary the corresponding information is
+      <em>externally linked</em> below. Thus <em>these external links</em>
+      will enable you to reproduce any copyright notice,
+      any related list of conditions, disclaimers, and especially
+      the copyright holders and authors of the corresponding third
+      party functionality.</p>
+      <a href="https://github.com/jquery/jquery" data-role="button" data-theme="c" rel="external" target="_blank" type="text/html" title="jQuery - Repository">
+        <img src="thirdparty/jquery-favicon.ico" width="16" height="16">
+        jQuery: MIT</a>
+      <a href="https://github.com/jquery/jquery-mobile" data-role="button" data-theme="c" rel="external" target="_blank" type="text/html" title="jQuery Mobile - Repository">
+        <img src="thirdparty/jquery.mobile-1.4.5/demos/favicon.ico" width="16" height="16">
+        jQuery Mobile: MIT</a>
+      <a href="https://github.com/DmitryBaranovskiy/raphael" data-role="button" data-theme="c" rel="external" target="_blank" type="text/html" title="Raphaël - Repository">
+        <img src="thirdparty/raphael-2.2.0/raphael_logo.png" width="16" height="16">
+        Raphaël: MIT</a>
+    </div><!-- collapsible -->
+    </div><!-- collapsible-set -->
+    <a href="#" data-role="button" data-icon="back" data-rel="back">Back</a>
+  </div><!-- /content -->
+</div><!-- /page -->
+
+
+<div class="ui-loader ui-corner-all ui-body-a ui-loader-default"><span class="ui-icon-loading"></span><h1>loading</h1></div><div class="ui-panel-dismiss"></div><i title="Raphaël Colour Picker" style="display: none; color: red;"></i></body></html>
