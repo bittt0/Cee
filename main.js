@@ -1,149 +1,132 @@
-// Add Litila font if not already loaded
-if (!document.getElementById('litila-font-link')) {
-    const link = document.createElement('link');
-    link.id = 'litila-font-link';
-    link.rel = 'stylesheet';
-    link.href = 'https://fonts.googleapis.com/css2?family=Litila&display=swap';
-    document.head.appendChild(link);
-}
-
-// Clear previous content
-document.body.innerHTML = '';
-document.body.style.margin = '0';
-document.body.style.overflow = 'hidden';
-document.body.style.fontFamily = "'Litila', sans-serif";
-
-// Add animated gradient background
-const style = document.createElement('style');
-style.textContent = `
-body {
-    background: linear-gradient(270deg,#6a0dad,#d46cff,#6a0dad);
-    background-size: 600% 600%;
-    animation: gradAnim 15s ease infinite;
-}
-@keyframes gradAnim {
-    0% {background-position:0% 50%}
-    50% {background-position:100% 50%}
-    100% {background-position:0% 50%}
-}
-.header1 {
-    position: fixed; width: 100%; text-align: center; font-size: 3em;
-    color: #d46cff; text-shadow: 0 0 12px #6a0dad; z-index: 100;
-}
-.header2 {
-    position: fixed; top: 3.5em; width: 100%; text-align: center; font-size: 2em;
-    color: #d46cff; text-shadow: 0 0 8px #6a0dad; z-index: 100;
-}
-.description {
-    position: fixed; top: 6em; width: 100%; text-align: center; font-size: 1.2em;
-    color: #eee; z-index: 100;
-}
-.input-area {
-    position: fixed; top: 8em; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; gap: 0.5em; align-items: center; z-index: 100;
-}
-.input-area input {
-    padding: 0.4em 0.6em; border-radius: 8px; border: 1px solid #9b59b6; font-size: 1.1em;
-}
-.input-area button {
-    padding: 0.4em 1em; border: none; border-radius: 8px; background: #9b59b6;
-    color: white; font-size: 1.2em; cursor: pointer;
-}
-.input-area button:hover { background: #8e44ad; }
-.game-list {
-    position: fixed; top: 12em; left: 50%; transform: translateX(-50%);
-    display: flex; flex-direction: column; gap: 0.5em; overflow-y: auto; height: 70vh;
-    width: 80%; max-width: 600px; z-index: 99;
-}
-.game-list button {
-    padding: 0.6em 1em; border: none; border-radius: 8px; background: rgba(255,255,255,0.2);
-    color: white; font-size: 1.1em; cursor: pointer; backdrop-filter: blur(8px); transition: 0.2s;
-}
-.game-list button:hover { background: rgba(255,255,255,0.35); }
-.fullscreen-btn {
-    position: fixed; top: 10px; right: 10px; z-index: 9999;
-    padding: 0.5em 1em; background: #9b59b6; color: white;
-    border: none; border-radius: 8px; cursor: pointer;
-}
-`;
-document.head.appendChild(style);
-
-// Create headers
-const header1 = document.createElement('div');
-header1.className = 'header1';
-header1.textContent = 'Cee';
-document.body.appendChild(header1);
-
-const header2 = document.createElement('div');
-header2.className = 'header2';
-header2.textContent = 'Games Portal';
-document.body.appendChild(header2);
-
-// Description
-const desc = document.createElement('div');
-desc.className = 'description';
-desc.textContent = 'Enter password to access games';
-document.body.appendChild(desc);
-
-// Input area
-const inputArea = document.createElement('div');
-inputArea.className = 'input-area';
-const input = document.createElement('input');
-input.type = 'password';
-input.placeholder = 'Enter password';
-inputArea.appendChild(input);
-const passButton = document.createElement('button');
-passButton.textContent = 'Unlock';
-inputArea.appendChild(passButton);
-document.body.appendChild(inputArea);
-
-// Game list container
-const gameList = document.createElement('div');
-gameList.className = 'game-list';
-document.body.appendChild(gameList);
-
-// List of games
-const games = [
-    { name: 'Driftboss', path: 'games/driftboss/index.html' },
-    { name: 'Subway Surfers', path: 'games/subwaysurfers/index.html' },
-    { name: 'Gunspin', path: 'games/gunspin/index.html' },
-    { name: 'Doodle Jump', path: 'games/doodlejump/index.html' },
-    { name: 'We Become', path: 'games/webecome/index.html' }
-];
-
-// Open game in same page with iframe and fullscreen button
-function openGame(url) {
-    gameList.innerHTML = ''; 
-    const iframe = document.createElement('iframe');
-    iframe.src = url;
-    iframe.style.width = '100vw';
-    iframe.style.height = '100vh';
-    iframe.style.border = 'none';
-    document.body.appendChild(iframe);
-
-    const fullBtn = document.createElement('button');
-    fullBtn.className = 'fullscreen-btn';
-    fullBtn.textContent = 'Fullscreen';
-    fullBtn.onclick = function() {
-        if (iframe.requestFullscreen) iframe.requestFullscreen();
-        else if (iframe.webkitRequestFullscreen) iframe.webkitRequestFullscreen();
-    };
-    document.body.appendChild(fullBtn);
-}
-
-// Password check
-passButton.onclick = function() {
-    if (input.value === 'letmein') {
-        inputArea.style.display = 'none';
-        desc.style.display = 'none';
-        games.forEach(g => {
-            const btn = document.createElement('button');
-            btn.textContent = g.name;
-            btn.onclick = function() { openGame(g.path); };
-            gameList.appendChild(btn);
-        });
-    } else {
-        alert('Incorrect password');
-        input.value = '';
+javascript:(function(){
+  var w = window.open('about:blank', '_blank', 'width=1200,height=800,scrollbars=yes,resizable=yes');
+  w.document.write(`<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cee</title>
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: auto;
     }
-};
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-radius: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 2rem;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      color: white;
+      max-width: 90vw;
+      width: 100%;
+      margin: 1rem;
+    }
+    h1 {
+      margin: 0 0 1.5rem;
+      font-size: 3.5rem;
+      font-weight: 300;
+      background: linear-gradient(45deg, rgba(255,255,255,0.9), rgba(255,255,255,0.6));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 2px;
+    }
+    .subtitle {
+      margin: 0 0 2rem;
+      opacity: 0.8;
+      font-size: 1.1rem;
+      font-style: italic;
+    }
+    .iframe-container {
+      width: 100%;
+      height: 60vh;
+      min-height: 400px;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .controls {
+      margin-top: 1rem;
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    button {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 12px;
+      color: white;
+      padding: 0.75rem 1.5rem;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    @media (max-width: 768px) {
+      .glass { padding: 1.5rem; margin: 0.5rem; }
+      h1 { font-size: 2.5rem; }
+      .iframe-container { height: 50vh; }
+      .controls { flex-direction: column; align-items: center; }
+    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    .glass { animation: fadeIn 0.6s ease-out; }
+  </style>
+</head>
+<body>
+  <div class="glass">
+    <h1>Cee</h1>
+    <p class="subtitle">Your Gateway to Epic Games</p>
+    <div class="iframe-container">
+      <iframe src="https://bittt0.github.io/Cee" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+    </div>
+    <div class="controls">
+      <button onclick="document.querySelector('iframe').requestFullscreen()">Fullscreen</button>
+      <button onclick="window.location.reload()">Refresh</button>
+      <button onclick="window.close()">Close</button>
+    </div>
+  </div>
+  <script>
+    // Add smooth scroll to iframe if needed
+    window.addEventListener('load', function() {
+      const iframe = document.querySelector('iframe');
+      iframe.onload = function() {
+        console.log('Cee loaded!');
+      };
+    });
+    // Handle fullscreen errors gracefully
+    document.addEventListener('fullscreenchange', function() {
+      if (!document.fullscreenElement) {
+        document.querySelector('.iframe-container').style.height = '60vh';
+      }
+    });
+  </script>
+</body>
+</html>`);
+  w.document.close();
+})();
