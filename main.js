@@ -1,6 +1,6 @@
 (function() {
   try {
-    // Create a basic document if not present
+    // Ensure a basic document exists
     if (!document.body) {
       document.open();
       document.write('<html><body></body></html>');
@@ -8,7 +8,14 @@
     }
     document.body.innerHTML = ''; // Clear any existing content
 
-    // Inline minimal UI
+    // Fallback UI if script fails
+    const fallbackHtml = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Loading failed. Check console (F12).</h1>';
+    document.body.innerHTML = fallbackHtml;
+
+    // Editable secret button message
+    const SECRET_MESSAGE = 'Secret unlocked: You found the button! 🎉';
+
+    // Build the page
     const html = `
       <div id="password-container" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); display: flex; justify-content: center; align-items: center; z-index: 1000;">
         <div id="password-box" style="background: rgba(85, 60, 154, 0.7); backdrop-filter: blur(15px); border-radius: 16px; padding: 1.5rem; text-align: center; border: 1px solid rgba(255,255,255,0.1); color: white; width: 80vw; max-width: 300px;">
@@ -21,7 +28,7 @@
       </div>
       <div id="main-content" class="hidden" style="background: rgba(107,70,193,0.4); backdrop-filter: blur(20px); border-radius: 24px; border: 1px solid rgba(255,255,255,0.1); padding: 2rem; box-shadow: 0 20px 40px rgba(0,0,0,0.3); text-align: center; color: white; max-width: 90vw; width: 100%; margin: 1rem; transition: opacity 0.3s ease;">
         <h1 style="font-size: 3rem; font-weight: normal; background: linear-gradient(45deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4)); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: 2px; margin-bottom: 2rem;">Cee</h1>
-        <div id="game-menu" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 1rem; margin-top: 1rem;">
+        <div id="game-menu" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px,1fr)); gap: 1rem; margin-top: 1rem;">
           <button class="game-button" data-game="crazystackblocks" style="background: rgba(85,60,154,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; padding: 0.75rem; cursor: pointer; font-size: 0.9rem; font-weight: normal; transition: all 0.3s ease;">Crazy Stack Blocks</button>
           <button class="game-button" data-game="doodlejump" style="background: rgba(85,60,154,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; padding: 0.75rem; cursor: pointer; font-size: 0.9rem; font-weight: normal; transition: all 0.3s ease;">Doodle Jump</button>
           <button class="game-button" data-game="driftboss" style="background: rgba(85,60,154,0.6); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; color: white; padding: 0.75rem; cursor: pointer; font-size: 0.9rem; font-weight: normal; transition: all 0.3s ease;">Drift Boss</button>
@@ -66,8 +73,7 @@
     const backBtn = document.getElementById('back-btn');
 
     if (!passwordContainer || !passwordInput || !passwordSubmit) {
-      console.error('Critical DOM elements missing');
-      document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: UI failed to load. Check console (F12).</h1>';
+      console.error('Critical DOM elements missing:', { passwordContainer, passwordInput, passwordSubmit });
       return;
     }
 
@@ -141,7 +147,7 @@
     });
 
     passwordInput.focus();
-    console.log('Script initialized');
+    console.log('Script initialized successfully');
   } catch (e) {
     console.error('Script error:', e);
     document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
