@@ -6,7 +6,7 @@
   }
 
   // Editable secret button message (customize this string in the code)
-  const SECRET_MESSAGE = 'Secret unlocked: You found the button! 🎉';
+  const SECRET_MESSAGE = 'fuck you zain';
 
   document.write(`<!DOCTYPE html>
 <html lang="en">
@@ -46,7 +46,7 @@
     .hidden { opacity: 0; pointer-events: none; }
     h1 {
       font-size: 3rem;
-      font-weight: 400;
+      font-weight: normal;
       background: linear-gradient(45deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
       -webkit-background-clip: text;
       background-clip: text;
@@ -69,6 +69,7 @@
       padding: 0.75rem;
       cursor: pointer;
       font-size: 0.9rem;
+      font-weight: normal;
       transition: all 0.3s ease;
       -webkit-tap-highlight-color: transparent;
     }
@@ -115,6 +116,7 @@
       background: rgba(85, 60, 154, 0.5);
       color: white;
       font-size: 1rem;
+      font-weight: normal;
       margin: 1rem 0;
       width: 100%;
       outline: none;
@@ -125,6 +127,7 @@
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
+      font-weight: normal;
     }
     #password-submit:hover, #password-submit:active {
       background: rgba(107, 70, 193, 1);
@@ -132,6 +135,7 @@
     #error {
       color: #ff6b6b;
       font-size: 0.8rem;
+      font-weight: normal;
       margin-top: 0.5rem;
     }
     .controls {
@@ -149,6 +153,7 @@
       padding: 0.5rem 1rem;
       cursor: pointer;
       font-size: 0.8rem;
+      font-weight: normal;
       transition: all 0.3s ease;
     }
     .control-btn:hover {
@@ -175,6 +180,7 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
       border-radius: 4px;
+      font-weight: normal;
     }
     #settings-panel input[type="file"] {
       color: white;
@@ -185,6 +191,7 @@
       border: none;
       padding: 0.5rem;
       margin-top: 0.5rem;
+      font-weight: normal;
     }
     #settings-panel button:hover {
       background: rgba(107, 70, 193, 1);
@@ -193,13 +200,13 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-      width: 20px;
-      height: 20px;
+      width: 15px;
+      height: 15px;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       cursor: pointer;
-      font-size: 0.7rem;
+      font-size: 0.6rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -249,9 +256,10 @@
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
       <button class="control-btn" id="settings-btn">Settings</button>
+      <button class="control-btn" onclick="document.getElementById('game-iframe').requestFullscreen()">Fullscreen</button>
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
-    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" onload="console.log('Game loaded:', this.src)" onerror="console.error('Game load failed:', this.src)"></iframe>
     <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
   </div>
   <div id="settings-panel">
@@ -281,7 +289,7 @@
 
     if (!mainContent || !passwordContainer || !passwordInput || !passwordSubmit) {
       console.error('DOM elements missing');
-      document.body.innerHTML = '<h1 style="color:#ff6b6b;text-align:center;">Error: UI failed to load. Check console.</h1>';
+      document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: UI failed to load. Check console.</h1>';
       return;
     }
 
@@ -307,10 +315,12 @@
     gameMenu.addEventListener('click', (e) => {
       if (e.target.classList.contains('game-button')) {
         const game = e.target.dataset.game;
-        gameIframe.src = `https://bittt0.github.io/Cee/${game}/index.html`;
+        const gameUrl = `https://bittt0.github.io/Cee/${game}/index.html`;
+        gameIframe.src = gameUrl;
         gameIframe.style.display = 'block';
         gameMenu.style.display = 'none';
         document.querySelector('.controls').style.display = 'none';
+        console.log('Loading game:', gameUrl);
       }
     });
 
