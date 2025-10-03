@@ -6,7 +6,7 @@
   }
 
   // Editable secret button message (customize this string in the code)
-  const SECRET_MESSAGE = 'Secret unlocked: You found the button! 🎉';
+  const SECRET_MESSAGE = 'Secret unlocked: You found the buton! 🎉';
 
   document.write(`<!DOCTYPE html>
 <html lang="en">
