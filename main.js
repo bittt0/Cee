@@ -6,7 +6,7 @@
   }
 
   // Editable secret button message (customize this string in the code)
-  const SECRET_MESSAGE = 'fuck you zain';
+  const SECRET_MESSAGE = 'fuck you zain :p';
 
   document.write(`<!DOCTYPE html>
 <html lang="en">
@@ -200,13 +200,13 @@
       position: absolute;
       bottom: 20px;
       right: 20px;
-      width: 15px;
-      height: 15px;
+      width: 10px;
+      height: 10px;
       background: rgba(255, 255, 255, 0.2);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 50%;
       cursor: pointer;
-      font-size: 0.6rem;
+      font-size: 0.5rem;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -247,11 +247,10 @@
       <button class="game-button" data-game="geometrydash">Geometry Dash</button>
       <button class="game-button" data-game="gunspin">Gun Spin</button>
       <button class="game-button" data-game="leverwarriors">Lever Warriors</button>
-      <button class="game-button" data-game="miniblocks">Mini Blocks</button>
-      <button class="game-button" data-game="monkeymart">Monkey Mart</button>
-      <button class="game-button" data-game="motocross">Motocross</button>
+      <button class="game-button" data-game="polyominoblocks">Polyomino Blocks</button>
+      <button class="game-button" data-game="polytrack">Poly Track</button>
       <button class="game-button" data-game="subwaysurfers">Subway Surfers</button>
-      <button class="game-button" data-game="webcome">Webcome</button>
+      <button class="game-button" data-game="webecome">We Become</button>
     </div>
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
@@ -259,7 +258,7 @@
       <button class="control-btn" onclick="document.getElementById('game-iframe').requestFullscreen()">Fullscreen</button>
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
-    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" onload="console.log('Game loaded:', this.src)" onerror="console.error('Game load failed:', this.src)"></iframe>
+    <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation" onload="console.log('Game loaded:', this.src)" onerror="console.error('Game load failed (404?):', this.src)"></iframe>
     <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
   </div>
   <div id="settings-panel">
@@ -315,12 +314,12 @@
     gameMenu.addEventListener('click', (e) => {
       if (e.target.classList.contains('game-button')) {
         const game = e.target.dataset.game;
-        const gameUrl = `https://bittt0.github.io/Cee/${game}/index.html`;
+        const gameUrl = `https://bittt0.github.io/Cee/games/${game}/index.html`;
         gameIframe.src = gameUrl;
         gameIframe.style.display = 'block';
         gameMenu.style.display = 'none';
         document.querySelector('.controls').style.display = 'none';
-        console.log('Loading game:', gameUrl);
+        console.log('Attempting to load game:', gameUrl);
       }
     });
 
