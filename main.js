@@ -6,7 +6,7 @@
   }
 
   // Editable secret button message (customize this string in the code)
-  const SECRET_MESSAGE = 'fuck you zain :p';
+  const SECRET_MESSAGE = 'fuck you zain m';
 
   document.write(`<!DOCTYPE html>
 <html lang="en">
