@@ -17,8 +17,8 @@
 
     // Build the page
     const html = `
-      <div id="password-container" class="container">
-        <div id="password-box">
+      <div id="password-container" class="glass-panel">
+        <div id="password-box" class="glass-card">
           <h2>Enter Password</h2>
           <input type="password" id="password-input" placeholder="Password..." autocomplete="off">
           <br>
@@ -26,7 +26,7 @@
           <div id="error"></div>
         </div>
       </div>
-      <div id="main-content" class="container hidden">
+      <div id="main-content" class="glass-panel hidden">
         <h1 class="title">Cee</h1>
         <div id="game-menu"></div>
         <div class="controls">
@@ -38,7 +38,7 @@
         <iframe id="game-frame"></iframe>
         <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
       </div>
-      <div id="settings-panel">
+      <div id="settings-panel" class="glass-card">
         <h3>Settings</h3>
         <label>Tab Cloaking</label>
         <input type="text" id="title-input" placeholder="New tab title" value="Cee">
@@ -64,15 +64,28 @@
           user-select: none;
           touch-action: manipulation;
         }
-        .container {
-          background: rgba(107, 70, 193, 0.3);
-          backdrop-filter: blur(15px);
+        .glass-panel {
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: rgba(0, 0, 0, 0.7);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 1000;
+        }
+        .glass-card {
+          background: rgba(85, 60, 154, 0.2);
+          backdrop-filter: blur(20px);
+          -webkit-backdrop-filter: blur(20px);
           border-radius: 20px;
-          border: 1px solid rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           padding: 1.5rem;
           width: 90vw;
           max-width: 600px;
-          box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
           text-align: center;
           color: white;
         }
@@ -80,7 +93,7 @@
         .title {
           font-size: 2.5rem;
           font-weight: normal;
-          background: linear-gradient(45deg, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.5));
+          background: linear-gradient(45deg, rgba(255, 255, 255, 0.9), rgba(255, 255, 255, 0.6));
           -webkit-background-clip: text;
           background-clip: text;
           color: transparent;
@@ -95,9 +108,11 @@
           margin: 1rem 0;
         }
         .game-button, .control-btn {
-          background: rgba(85, 60, 154, 0.7);
-          border: none;
-          border-radius: 10px;
+          background: rgba(107, 70, 193, 0.3);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 12px;
           color: white;
           padding: 0.8rem 1.2rem;
           cursor: pointer;
@@ -106,37 +121,17 @@
           transition: all 0.3s ease;
         }
         .game-button:hover, .control-btn:hover {
-          background: rgba(85, 60, 154, 0.9);
+          background: rgba(107, 70, 193, 0.5);
           transform: translateY(-2px);
-          box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
-        }
-        #password-container {
-          position: fixed;
-          top: 0;
-          left: 0;
-          width: 100%;
-          height: 100%;
-          background: rgba(0, 0, 0, 0.85);
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          z-index: 1000;
-        }
-        #password-box {
-          background: rgba(85, 60, 154, 0.8);
-          backdrop-filter: blur(10px);
-          border-radius: 15px;
-          padding: 1.5rem;
-          text-align: center;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          width: 80vw;
-          max-width: 350px;
+          box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         #password-input {
           padding: 0.7rem;
           border-radius: 8px;
           border: 1px solid rgba(255, 255, 255, 0.2);
-          background: rgba(85, 60, 154, 0.6);
+          background: rgba(85, 60, 154, 0.4);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           color: white;
           font-size: 1rem;
           font-weight: normal;
@@ -144,16 +139,18 @@
           width: 100%;
           outline: none;
         }
-        #password-input::placeholder { color: rgba(255, 255, 255, 0.6); }
+        #password-input::placeholder { color: rgba(255, 255, 255, 0.7); }
         #password-submit {
-          background: rgba(107, 70, 193, 0.9);
-          border: none;
+          background: rgba(107, 70, 193, 0.4);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           padding: 0.7rem 1.5rem;
           font-size: 1rem;
           font-weight: normal;
           border-radius: 8px;
         }
-        #password-submit:hover { background: rgba(107, 70, 193, 1); }
+        #password-submit:hover { background: rgba(107, 70, 193, 0.6); }
         #error { color: #ff6b6b; font-size: 0.9rem; font-weight: normal; margin-top: 0.5rem; }
         #game-frame {
           width: 100%;
@@ -161,25 +158,17 @@
           border: none;
           border-radius: 15px;
           display: none;
-        }
-        #settings-panel {
-          display: none;
-          position: fixed;
-          top: 20px;
-          right: 20px;
-          background: rgba(85, 60, 154, 0.8);
+          background: rgba(255, 255, 255, 0.1);
           backdrop-filter: blur(10px);
-          border-radius: 12px;
-          padding: 1rem;
-          border: 1px solid rgba(255, 255, 255, 0.1);
-          z-index: 1001;
-          max-width: 250px;
+          -webkit-backdrop-filter: blur(10px);
         }
         #settings-panel input {
           width: 100%;
           padding: 0.5rem;
           margin: 0.5rem 0;
-          background: rgba(85, 60, 154, 0.6);
+          background: rgba(85, 60, 154, 0.4);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.2);
           color: white;
           border-radius: 6px;
@@ -187,14 +176,16 @@
         }
         #settings-panel input[type="file"] { color: white; padding: 0; }
         #settings-panel button {
-          background: rgba(107, 70, 193, 0.9);
-          border: none;
+          background: rgba(107, 70, 193, 0.4);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
           padding: 0.5rem;
           margin-top: 0.5rem;
           font-weight: normal;
           border-radius: 6px;
         }
-        #settings-panel button:hover { background: rgba(107, 70, 193, 1); }
+        #settings-panel button:hover { background: rgba(107, 70, 193, 0.6); }
         .secret-btn {
           position: absolute;
           bottom: 20px;
@@ -217,7 +208,7 @@
           transform: scale(1.1);
         }
         @media (max-width: 600px) {
-          .container { padding: 1rem; }
+          .glass-card { padding: 1rem; }
           .title { font-size: 2rem; }
           .game-button, .control-btn { padding: 0.6rem 1rem; font-size: 0.9rem; }
         }
