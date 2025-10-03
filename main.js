@@ -1,13 +1,22 @@
 (function() {
   try {
-    document.documentElement.innerHTML = '';
+    // Clear existing content safely
+    if (document.body) {
+      document.body.innerHTML = '';
+    } else {
+      document.documentElement.innerHTML = '';
+    }
   } catch (e) {
     console.error('Error clearing document:', e);
+    document.open();
+    document.write('<html><body></body></html>');
+    document.close();
   }
 
   // Editable secret button message (customize this string in the code)
   const SECRET_MESSAGE = 'Secret unlocked: You found the button! 🎉';
 
+  // Build the page
   document.write(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -266,105 +275,97 @@
 </html>`);
 
   try {
-    const mainContent = document.getElementById('main-content');
-    const passwordContainer = document.getElementById('password-container');
-    const passwordInput = document.getElementById('password-input');
-    const passwordSubmit = document.getElementById('password-submit');
-    const error = document.getElementById('error');
-    const gameMenu = document.getElementById('game-menu');
-    const settingsBtn = document.getElementById('settings-btn');
-    const settingsPanel = document.getElementById('settings-panel');
-    const backBtn = document.getElementById('back-btn');
+    // Ensure DOM is ready
+    const checkDom = setInterval(() => {
+      const mainContent = document.getElementById('main-content');
+      const passwordContainer = document.getElementById('password-container');
+      const passwordInput = document.getElementById('password-input');
+      const passwordSubmit = document.getElementById('password-submit');
+      const error = document.getElementById('error');
+      const gameMenu = document.getElementById('game-menu');
+      const settingsBtn = document.getElementById('settings-btn');
+      const settingsPanel = document.getElementById('settings-panel');
+      const backBtn = document.getElementById('back-btn');
 
-    if (!mainContent || !passwordContainer || !passwordInput || !passwordSubmit) {
-      console.error('DOM elements missing');
-      document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: UI failed to load. Check console.</h1>';
-      return;
-    }
+      if (mainContent && passwordContainer && passwordInput && passwordSubmit) {
+        clearInterval(checkDom);
 
-    function checkPassword() {
-      if (passwordInput.value === 'letmein') {
-        passwordContainer.style.display = 'none';
-        mainContent.classList.remove('hidden');
-        window.name = 'cee_' + Math.random().toString(36).substring(2);
-        console.log('Password accepted, UI shown');
-      } else {
-        error.textContent = 'Incorrect password. Try again.';
-        passwordInput.value = '';
-        passwordInput.focus();
-        console.warn('Incorrect password entered');
-      }
-    }
-
-    passwordSubmit.addEventListener('click', checkPassword);
-    passwordInput.addEventListener('keypress', (e) => {
-      if (e.key === 'Enter') checkPassword();
-    });
-
-    gameMenu.addEventListener('click', (e) => {
-      if (e.target.classList.contains('game-button')) {
-        const game = e.target.dataset.game;
-        const gameUrl = `https://bittt0.github.io/Cee/games/${game}/index.html`;
-        const gameWindow = window.open(gameUrl, '_blank');
-        if (gameWindow) {
-          backBtn.style.display = 'inline-block';
-          console.log('Opened game in new window:', gameUrl);
-        } else {
-          console.error('Failed to open new window, likely blocked by popup settings');
+        function checkPassword() {
+          if (passwordInput.value === 'letmein') {
+            passwordContainer.style.display = 'none';
+            mainContent.classList.remove('hidden');
+            window.name = 'cee_' + Math.random().toString(36).substring(2);
+            console.log('Password accepted, UI shown');
+          } else {
+            error.textContent = 'Incorrect password. Try again.';
+            passwordInput.value = '';
+            passwordInput.focus();
+            console.warn('Incorrect password entered');
+          }
         }
-      }
-    });
 
-    backBtn.addEventListener('click', () => {
-      // Reload the bookmarklet page to restore the menu
-      window.location.href = 'about:blank'; // This reloads the bookmarklet
-      console.log('Returning to homepage');
-    });
+        passwordSubmit.addEventListener('click', checkPassword);
+        passwordInput.addEventListener('keypress', (e) => {
+          if (e.key === 'Enter') checkPassword();
+        });
 
-    settingsBtn.addEventListener('click', () => {
-      settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
-    });
+        gameMenu.addEventListener('click', (e) => {
+          if (e.target.classList.contains('game-button')) {
+            const game = e.target.dataset.game;
+            const gameUrl = `https://bittt0.github.io/Cee/games/${game}/index.html`;
+            const gameWindow = window.open(gameUrl, '_blank');
+            if (gameWindow) {
+              backBtn.style.display = 'inline-block';
+              console.log('Opened game in new window:', gameUrl);
+            } else {
+              console.error('Failed to open new window, likely blocked by popup settings');
+            }
+          }
+        });
 
-    window.cloakTab = () => {
-      const newTitle = document.getElementById('title-input').value || 'Cee';
-      document.title = newTitle;
-      alert('Tab title changed to: ' + newTitle);
-      settingsPanel.style.display = 'none';
-    };
+        backBtn.addEventListener('click', () => {
+          window.location.href = 'about:blank'; // Reloads the bookmarklet
+          console.log('Returning to homepage');
+        });
 
-    window.setIcon = () => {
-      const fileInput = document.getElementById('icon-upload');
-      const file = fileInput.files[0];
-      if (file) {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-          let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-          link.type = 'image/x-icon';
-          link.rel = 'shortcut icon';
-          link.href = e.target.result;
-          document.head.appendChild(link);
-          alert('Tab icon updated!');
+        settingsBtn.addEventListener('click', () => {
+          settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
+        });
+
+        window.cloakTab = () => {
+          const newTitle = document.getElementById('title-input').value || 'Cee';
+          document.title = newTitle;
+          alert('Tab title changed to: ' + newTitle);
+          settingsPanel.style.display = 'none';
         };
-        reader.readAsDataURL(file);
-      } else {
-        alert('Please select an image file.');
-      }
-      settingsPanel.style.display = 'none';
-    });
 
-    document.addEventListener('contextmenu', (e) => e.preventDefault());
+        window.setIcon = () => {
+          const fileInput = document.getElementById('icon-upload');
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+              link.type = 'image/x-icon';
+              link.rel = 'shortcut icon';
+              link.href = e.target.result;
+              document.head.appendChild(link);
+              alert('Tab icon updated!');
+            };
+            reader.readAsDataURL(file);
+          } else {
+            alert('Please select an image file.');
+          }
+          settingsPanel.style.display = 'none';
+        });
 
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('contextmenu', (e) => e.preventDefault());
         passwordInput.focus();
-        console.log('DOM loaded');
-      });
-    } else {
-      passwordInput.focus();
-      console.log('DOM already loaded');
-    }
+        console.log('DOM loaded and initialized');
+      }
+    }, 100);
   } catch (e) {
     console.error('Script error:', e);
-    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;'>Error: ' + e.message + '. Check console (F12).</h1>';
+    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
   }
 })();
