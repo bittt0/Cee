@@ -9,7 +9,7 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: 'Lilita One', system-ui, -apple-system, sans-serif;
-      background: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%);
+      background: linear-gradient(135deg, #6b46c1, #4a2e8e);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -18,6 +18,7 @@
       -webkit-user-select: none;
       user-select: none;
       touch-action: manipulation;
+      transition: background 0.3s ease;
     }
     .glass-panel {
       position: fixed;
@@ -25,140 +26,170 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.65);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      transition: background 0.3s ease;
     }
     .glass-card {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(40px);
-      -webkit-backdrop-filter: blur(40px);
-      border-radius: 20px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 1.5rem;
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(50px);
+      -webkit-backdrop-filter: blur(50px);
+      border-radius: 25px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      padding: 2rem;
       width: 90vw;
-      max-width: 600px;
-      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+      max-width: 650px;
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4), 0 0 15px rgba(107, 70, 193, 0.3);
       text-align: center;
-      color: white;
+      color: #e6e6fa;
+      overflow: hidden;
+      transition: all 0.3s ease;
     }
     .hidden { display: none; }
-    .title {
-      font-size: 2.5rem;
+    .logo {
+      font-size: 3.2rem;
       font-weight: normal;
-      background: linear-gradient(45deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
+      background: linear-gradient(45deg, #ffffff, #d3d3ff);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
-      letter-spacing: 1px;
+      letter-spacing: 3px;
       margin-bottom: 1.5rem;
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
     .game-menu, .controls {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      gap: 1rem;
-      margin: 1rem 0;
+      gap: 1.2rem;
+      margin: 1.2rem 0;
     }
     .game-button, .control-btn {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      border-radius: 12px;
-      color: white;
-      padding: 0.8rem 1.2rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 15px;
+      color: #e6e6fa;
+      padding: 0.9rem 1.4rem;
       cursor: pointer;
-      font-size: 1rem;
+      font-size: 1.1rem;
       font-weight: normal;
       transition: all 0.3s ease;
+      text-shadow: 0 0 5px rgba(255, 255, 255, 0.1);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.02); }
     }
     .game-button:hover, .control-btn:hover {
-      background: rgba(255, 255, 255, 0.16);
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3), 0 0 10px rgba(107, 70, 193, 0.4);
     }
     #password-input {
-      padding: 0.7rem;
-      border-radius: 8px;
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      color: white;
-      font-size: 1rem;
+      padding: 0.8rem;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      color: #e6e6fa;
+      font-size: 1.1rem;
       font-weight: normal;
-      margin: 1rem 0;
+      margin: 1.2rem 0;
       width: 100%;
       outline: none;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
     }
-    #password-input::placeholder { color: rgba(255, 255, 255, 0.7); }
+    #password-input::placeholder { color: rgba(230, 230, 250, 0.7); }
     #password-submit {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 0.7rem 1.5rem;
-      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.8rem 1.6rem;
+      font-size: 1.1rem;
       font-weight: normal;
-      border-radius: 8px;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
     }
-    #password-submit:hover { background: rgba(255, 255, 255, 0.16); }
-    #error { color: #ff6b6b; font-size: 0.9rem; font-weight: normal; margin-top: 0.5rem; }
+    #password-submit:hover { background: rgba(255, 255, 255, 0.12); }
+    #error { color: #ff8c94; font-size: 1rem; font-weight: normal; margin-top: 0.6rem; text-shadow: 0 0 5px rgba(255, 140, 148, 0.3); }
     #game-frame {
       width: 100%;
       height: 80vh;
       border: none;
       border-radius: 15px;
       display: none;
-      background: rgba(255, 255, 255, 0.04);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
     #settings-panel {
       display: none;
       position: fixed;
-      top: 20px;
-      right: 20px;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border-radius: 12px;
-      padding: 1rem;
-      border: 1px solid rgba(255, 255, 255, 0.18);
+      top: 25px;
+      right: 25px;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border-radius: 15px;
+      padding: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.12);
       z-index: 1001;
-      max-width: 250px;
+      max-width: 280px;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
+      animation: float 3s ease-in-out infinite;
     }
     #settings-panel input {
       width: 100%;
-      padding: 0.5rem;
-      margin: 0.5rem 0;
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      color: white;
-      border-radius: 6px;
+      padding: 0.6rem;
+      margin: 0.6rem 0;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      color: #e6e6fa;
+      border-radius: 8px;
       font-weight: normal;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
     }
-    #settings-panel input[type="file"] { color: white; padding: 0; }
+    #settings-panel input[type="file"] { color: #e6e6fa; padding: 0; }
     #settings-panel button {
-      background: rgba(255, 255, 255, 0.08);
-      backdrop-filter: blur(25px);
-      -webkit-backdrop-filter: blur(25px);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 0.5rem;
-      margin-top: 0.5rem;
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 0.6rem;
+      margin-top: 0.6rem;
       font-weight: normal;
-      border-radius: 6px;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      animation: pulse 2s infinite;
     }
-    #settings-panel button:hover { background: rgba(255, 255, 255, 0.16); }
+    #settings-panel button:hover { background: rgba(255, 255, 255, 0.12); }
     .secret-btn {
       position: absolute;
-      bottom: 20px;
-      right: 20px;
+      bottom: 25px;
+      right: 25px;
       width: 10px;
       height: 10px;
       background: rgba(255, 255, 255, 0.2);
@@ -169,17 +200,42 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: white;
+      color: #e6e6fa;
       transition: all 0.3s ease;
+      box-shadow: 0 0 8px rgba(255, 255, 255, 0.1);
+      animation: pulse 2s infinite;
     }
     .secret-btn:hover {
-      background: rgba(255, 255, 255, 0.4);
-      transform: scale(1.1);
+      background: rgba(255, 255, 255, 0.35);
+      transform: scale(1.2);
+      box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
+    }
+    #fullscreen-btn {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px);
+      -webkit-backdrop-filter: blur(30px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 15px;
+      color: #e6e6fa;
+      padding: 0.6rem 1rem;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: normal;
+      margin-top: 1rem;
+      transition: all 0.3s ease;
+      display: none;
+      animation: pulse 2s infinite;
+    }
+    #fullscreen-btn:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
     @media (max-width: 600px) {
-      .glass-card { padding: 1rem; }
-      .title { font-size: 2rem; }
-      .game-button, .control-btn { padding: 0.6rem 1rem; font-size: 0.9rem; }
+      .glass-card { padding: 1.2rem; }
+      .logo { font-size: 2.5rem; }
+      .game-button, .control-btn { padding: 0.7rem 1.1rem; font-size: 1rem; }
+      #settings-panel { top: 15px; right: 15px; padding: 1rem; max-width: 240px; }
     }
   </style>
 </head>
@@ -194,7 +250,7 @@
     </div>
   </div>
   <div id="main-content" class="glass-panel hidden">
-    <h1 class="title">Cee</h1>
+    <h1 class="logo">Cee</h1>
     <div id="game-menu"></div>
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
@@ -203,6 +259,7 @@
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
     <iframe id="game-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
+    <button id="fullscreen-btn" onclick="toggleFullscreen()">Fullscreen</button>
     <button class="secret-btn" onclick="alert('Secret unlocked: You found the button! 🎉');">?</button>
   </div>
   <div id="settings-panel" class="glass-card">
@@ -227,6 +284,7 @@
     const settingsBtn = document.getElementById('settings-btn');
     const settingsPanel = document.getElementById('settings-panel');
     const backBtn = document.getElementById('back-btn');
+    const fullscreenBtn = document.getElementById('fullscreen-btn');
 
     const games = [
       { name: 'Crazy Stack Blocks', id: 'crazystackblocks' },
@@ -237,7 +295,7 @@
       { name: 'Lever Warriors', id: 'leverwarriors' },
       { name: 'Polyomino Blocks', id: 'polyominoblocks' },
       { name: 'Poly Track', id: 'polytrack' },
-      { name: 'Subway Surfers', id: 'subwaysurfers' },
+      { name: 'Ragdoll Hit', id: 'subwaysurfers' },
       { name: 'We Become', id: 'webecome' }
     ];
 
@@ -249,11 +307,15 @@
         try {
           const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(`https://bittt0.github.io/Cee/games/${game.id}/index.html`);
           gameFrame.src = proxyUrl;
-          gameFrame.onload = () => console.log('Game loaded:', game.id);
+          gameFrame.onload = () => {
+            console.log('Game loaded:', game.id);
+            fullscreenBtn.style.display = 'block';
+          };
           gameFrame.onerror = () => console.error('Failed to load game:', game.id);
           gameFrame.style.display = 'block';
           gameMenu.style.display = 'none';
           backBtn.style.display = 'inline-block';
+          fullscreenBtn.style.display = 'block';
           console.log('Attempting to load game:', game.id);
         } catch (e) {
           console.error('Game load error:', e);
@@ -286,6 +348,7 @@
       gameFrame.src = '';
       gameMenu.style.display = 'flex';
       backBtn.style.display = 'none';
+      fullscreenBtn.style.display = 'none';
       console.log('Returned to homepage');
     };
 
@@ -318,6 +381,16 @@
         alert('Please select an image file.');
       }
       settingsPanel.style.display = 'none';
+    };
+
+    window.toggleFullscreen = () => {
+      if (!document.fullscreenElement) {
+        gameFrame.requestFullscreen().catch(err => {
+          console.error('Fullscreen failed:', err);
+        });
+      } else {
+        document.exitFullscreen();
+      }
     };
 
     passwordInput.focus();
