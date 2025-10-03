@@ -6,8 +6,9 @@
       document.write('<html><body></body></html>');
       document.close();
     }
+    document.body.innerHTML = ''; // Clear any existing content
 
-    // Initial fallback UI to prevent blank page
+    // Fallback UI to prevent blank page
     document.body.innerHTML = '<div style="color:white;font-family:\'Lilita One\',sans-serif;text-align:center;">Loading...</div>';
 
     // Editable secret button message
@@ -49,15 +50,15 @@
             z-index: 1000;
           }
           .glass-card {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(35px);
-            -webkit-backdrop-filter: blur(35px);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
             border-radius: 20px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             padding: 1.5rem;
             width: 90vw;
             max-width: 600px;
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
             text-align: center;
             color: white;
           }
@@ -65,7 +66,7 @@
           .title {
             font-size: 2.5rem;
             font-weight: normal;
-            background: linear-gradient(45deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.65));
+            background: linear-gradient(45deg, rgba(255, 255, 255, 0.95), rgba(255, 255, 255, 0.7));
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
@@ -80,10 +81,10 @@
             margin: 1rem 0;
           }
           .game-button, .control-btn {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             border-radius: 12px;
             color: white;
             padding: 0.8rem 1.2rem;
@@ -93,17 +94,17 @@
             transition: all 0.3s ease;
           }
           .game-button:hover, .control-btn:hover {
-            background: rgba(255, 255, 255, 0.15);
+            background: rgba(255, 255, 255, 0.16);
             transform: translateY(-2px);
-            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
           }
           #password-input {
             padding: 0.7rem;
             border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             color: white;
             font-size: 1rem;
             font-weight: normal;
@@ -113,16 +114,16 @@
           }
           #password-input::placeholder { color: rgba(255, 255, 255, 0.7); }
           #password-submit {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             padding: 0.7rem 1.5rem;
             font-size: 1rem;
             font-weight: normal;
             border-radius: 8px;
           }
-          #password-submit:hover { background: rgba(255, 255, 255, 0.15); }
+          #password-submit:hover { background: rgba(255, 255, 255, 0.16); }
           #error { color: #ff6b6b; font-size: 0.9rem; font-weight: normal; margin-top: 0.5rem; }
           #game-frame {
             width: 100%;
@@ -130,21 +131,21 @@
             border: none;
             border-radius: 15px;
             display: none;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
           }
           #settings-panel {
             display: none;
             position: fixed;
             top: 20px;
             right: 20px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
             border-radius: 12px;
             padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             z-index: 1001;
             max-width: 250px;
           }
@@ -152,26 +153,26 @@
             width: 100%;
             padding: 0.5rem;
             margin: 0.5rem 0;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             color: white;
             border-radius: 6px;
             font-weight: normal;
           }
           #settings-panel input[type="file"] { color: white; padding: 0; }
           #settings-panel button {
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.25);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
             padding: 0.5rem;
             margin-top: 0.5rem;
             font-weight: normal;
             border-radius: 6px;
           }
-          #settings-panel button:hover { background: rgba(255, 255, 255, 0.15); }
+          #settings-panel button:hover { background: rgba(255, 255, 255, 0.16); }
           .secret-btn {
             position: absolute;
             bottom: 20px;
@@ -219,7 +220,7 @@
             <button class="control-btn" id="back-btn" style="display:none;">Back to Homepage</button>
             <button class="control-btn" onclick="window.close()">Close</button>
           </div>
-          <iframe id="game-frame"></iframe>
+          <iframe id="game-frame" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
           <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
         </div>
         <div id="settings-panel" class="glass-card">
@@ -277,7 +278,9 @@
           button.textContent = game.name;
           button.onclick = () => {
             try {
-              gameFrame.src = `https://bittt0.github.io/Cee/games/${game.id}/index.html`;
+              // Use CORS proxy to bypass restrictions
+              const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(`https://bittt0.github.io/Cee/games/${game.id}/index.html`);
+              gameFrame.src = proxyUrl;
               gameFrame.onload = () => console.log('Game loaded:', game.id);
               gameFrame.onerror = () => console.error('Failed to load game:', game.id);
               gameFrame.style.display = 'block';
