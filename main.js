@@ -1,12 +1,13 @@
 (function() {
-  // Clear existing content safely
   try {
     document.documentElement.innerHTML = '';
   } catch (e) {
     console.error('Error clearing document:', e);
   }
 
-  // Write full HTML
+  // Editable secret button message (customize this string in the code)
+  const SECRET_MESSAGE = 'Secret unlocked: You found the button! 🎉';
+
   document.write(`<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -14,10 +15,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>Cee</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Lilita+One&display=swap');
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+      font-family: 'Lilita One', system-ui, -apple-system, sans-serif;
+      background: linear-gradient(135deg, #6b46c1 0%, #553c9a 100%);
       min-height: 100vh;
       display: flex;
       justify-content: center;
@@ -27,7 +29,7 @@
       touch-action: manipulation;
     }
     .glass {
-      background: rgba(0, 0, 0, 0.3);
+      background: rgba(107, 70, 193, 0.4);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-radius: 24px;
@@ -44,7 +46,7 @@
     .hidden { opacity: 0; pointer-events: none; }
     h1 {
       font-size: 3rem;
-      font-weight: 300;
+      font-weight: 400;
       background: linear-gradient(45deg, rgba(255,255,255,0.7), rgba(255,255,255,0.4));
       -webkit-background-clip: text;
       background-clip: text;
@@ -59,7 +61,7 @@
       margin-top: 1rem;
     }
     .game-button {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(85, 60, 154, 0.6);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 12px;
@@ -71,7 +73,7 @@
       -webkit-tap-highlight-color: transparent;
     }
     .game-button:hover, .game-button:active {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(85, 60, 154, 0.8);
       transform: translateY(-2px);
       box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
@@ -80,7 +82,7 @@
       height: 70vh;
       border: none;
       border-radius: 12px;
-      background: rgba(0, 0, 0, 0.2);
+      background: rgba(85, 60, 154, 0.3);
       display: none;
     }
     #password-container {
@@ -96,7 +98,7 @@
       z-index: 1000;
     }
     #password-box {
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(85, 60, 154, 0.7);
       backdrop-filter: blur(15px);
       border-radius: 16px;
       padding: 1.5rem;
@@ -110,7 +112,7 @@
       padding: 0.75rem;
       border-radius: 8px;
       border: 1px solid rgba(255, 255, 255, 0.2);
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(85, 60, 154, 0.5);
       color: white;
       font-size: 1rem;
       margin: 1rem 0;
@@ -119,14 +121,13 @@
     }
     #password-input::placeholder { color: rgba(255, 255, 255, 0.4); }
     #password-submit {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(107, 70, 193, 0.8);
       border: 1px solid rgba(255, 255, 255, 0.1);
       padding: 0.75rem 1.5rem;
       font-size: 1rem;
-      color: white;
     }
     #password-submit:hover, #password-submit:active {
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(107, 70, 193, 1);
     }
     #error {
       color: #ff6b6b;
@@ -141,7 +142,7 @@
       flex-wrap: wrap;
     }
     .control-btn {
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(85, 60, 154, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.1);
       border-radius: 8px;
       color: white;
@@ -151,14 +152,14 @@
       transition: all 0.3s ease;
     }
     .control-btn:hover {
-      background: rgba(0, 0, 0, 0.6);
+      background: rgba(85, 60, 154, 0.8);
     }
     #settings-panel {
       display: none;
       position: fixed;
       top: 20px;
       right: 20px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(85, 60, 154, 0.7);
       backdrop-filter: blur(15px);
       border-radius: 12px;
       padding: 1rem;
@@ -170,24 +171,44 @@
       width: 100%;
       padding: 0.5rem;
       margin: 0.5rem 0;
-      background: rgba(0, 0, 0, 0.4);
+      background: rgba(85, 60, 154, 0.5);
       border: 1px solid rgba(255, 255, 255, 0.2);
       color: white;
       border-radius: 4px;
     }
+    #settings-panel input[type="file"] {
+      color: white;
+      padding: 0;
+    }
+    #settings-panel button {
+      background: rgba(107, 70, 193, 0.8);
+      border: none;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+    #settings-panel button:hover {
+      background: rgba(107, 70, 193, 1);
+    }
     .secret-btn {
       position: absolute;
-      bottom: 10px;
-      right: 10px;
-      width: 10px;
-      height: 10px;
-      background: transparent;
-      border: none;
+      bottom: 20px;
+      right: 20px;
+      width: 20px;
+      height: 20px;
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 50%;
       cursor: pointer;
-      opacity: 0.1;
+      font-size: 0.7rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      transition: all 0.3s ease;
     }
     .secret-btn:hover {
-      opacity: 0.5;
+      background: rgba(255, 255, 255, 0.4);
+      transform: scale(1.1);
     }
     @media (max-width: 768px) {
       .glass { padding: 1rem; margin: 0.5rem; }
@@ -213,11 +234,17 @@
   <div class="glass hidden" id="main-content">
     <h1>Cee</h1>
     <div class="game-menu" id="game-menu">
-      <button class="game-button" data-game="subway-surfers">Subway Surfers</button>
-      <button class="game-button" data-game="snake">Snake</button>
-      <button class="game-button" data-game="tetris">Tetris</button>
-      <button class="game-button" data-game="cookie-clicker">Cookie Clicker</button>
-      <button class="game-button" data-game="block-blast">Block Blast</button>
+      <button class="game-button" data-game="crazystackblocks">Crazy Stack Blocks</button>
+      <button class="game-button" data-game="doodlejump">Doodle Jump</button>
+      <button class="game-button" data-game="driftboss">Drift Boss</button>
+      <button class="game-button" data-game="geometrydash">Geometry Dash</button>
+      <button class="game-button" data-game="gunspin">Gun Spin</button>
+      <button class="game-button" data-game="leverwarriors">Lever Warriors</button>
+      <button class="game-button" data-game="miniblocks">Mini Blocks</button>
+      <button class="game-button" data-game="monkeymart">Monkey Mart</button>
+      <button class="game-button" data-game="motocross">Motocross</button>
+      <button class="game-button" data-game="subwaysurfers">Subway Surfers</button>
+      <button class="game-button" data-game="webcome">Webcome</button>
     </div>
     <div class="controls">
       <button class="control-btn" onclick="window.open('https://github.com/bittt0/Cee')">GitHub</button>
@@ -225,7 +252,7 @@
       <button class="control-btn" onclick="window.close()">Close</button>
     </div>
     <iframe id="game-iframe" sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-top-navigation"></iframe>
-    <button class="secret-btn" onclick="alert('Secret message: You found the hidden button! 🚀');" title="Secret"></button>
+    <button class="secret-btn" onclick="alert('${SECRET_MESSAGE}');">?</button>
   </div>
   <div id="settings-panel">
     <h3>Settings</h3>
@@ -233,8 +260,8 @@
     <input type="text" id="title-input" placeholder="New tab title" value="Cee">
     <button onclick="cloakTab()">Apply Cloak</button>
     <br>
-    <label>Tab Icon (simple)</label>
-    <input type="text" id="icon-color" placeholder="Icon color (e.g., #purple)" value="#764ba2">
+    <label>Tab Icon</label>
+    <input type="file" id="icon-upload" accept="image/*">
     <button onclick="setIcon()">Set Icon</button>
     <button onclick="document.getElementById('settings-panel').style.display='none'">Close</button>
   </div>
@@ -277,18 +304,16 @@
       if (e.key === 'Enter') checkPassword();
     });
 
-    // Game loading in iframe to stay in about:blank
     gameMenu.addEventListener('click', (e) => {
       if (e.target.classList.contains('game-button')) {
         const game = e.target.dataset.game;
-        gameIframe.src = `https://bittt0.github.io/Cee/${game}`;
+        gameIframe.src = `https://bittt0.github.io/Cee/${game}/index.html`;
         gameIframe.style.display = 'block';
         gameMenu.style.display = 'none';
         document.querySelector('.controls').style.display = 'none';
       }
     });
 
-    // Settings
     settingsBtn.addEventListener('click', () => {
       settingsPanel.style.display = settingsPanel.style.display === 'block' ? 'none' : 'block';
     });
@@ -301,13 +326,22 @@
     };
 
     window.setIcon = () => {
-      const color = document.getElementById('icon-color').value || '#764ba2';
-      let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
-      link.type = 'image/x-icon';
-      link.rel = 'shortcut icon';
-      link.href = `data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22256%22 height=%22256%22><rect width=%22256%22 height=%22256%22 fill=%22${color}%22/></svg>`;
-      document.head.appendChild(link);
-      alert('Simple colored icon set!');
+      const fileInput = document.getElementById('icon-upload');
+      const file = fileInput.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          let link = document.querySelector("link[rel*='icon']") || document.createElement('link');
+          link.type = 'image/x-icon';
+          link.rel = 'shortcut icon';
+          link.href = e.target.result;
+          document.head.appendChild(link);
+          alert('Tab icon updated!');
+        };
+        reader.readAsDataURL(file);
+      } else {
+        alert('Please select an image file.');
+      }
       settingsPanel.style.display = 'none';
     };
 
@@ -324,6 +358,6 @@
     }
   } catch (e) {
     console.error('Script error:', e);
-    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:system-ui;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
+    document.body.innerHTML = '<h1 style="color:#ff6b6b;font-family:\'Lilita One\',sans-serif;text-align:center;">Error: ' + e.message + '. Check console (F12).</h1>';
   }
 })();
